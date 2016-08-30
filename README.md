@@ -8,3 +8,4 @@ Initial attempt to use CB API for incident response.
 ##		4) Deploy malwarebytes, run scan and return logs
 ##		5) Clean PUPs
 ##		6) Sensor Status
+##    7) Deploy KVRT tool and pull back report
