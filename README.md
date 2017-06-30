@@ -1,5 +1,5 @@
 # CBIRAutomation
-Initial attempt to use CB API for incident response.
+CB API scripts for incident response and analysis.
 
 ##	Tasks (planned):
 ##		1) Run full scan of installed AV (complete - fullscan.py)
@@ -8,7 +8,7 @@ Initial attempt to use CB API for incident response.
 ##		4) Deploy malwarebytes, run scan and return logs (in progress)
 ##		5) Clean PUPs (complete - putex.py(uses modified Junkware removal tool))
 ##		6) Sensor Status (partially completed - Endpoint Status.py)
-##    7) Deploy KVRT tool and pull back report (complete - KVRT.py)
+##		7) Deploy KVRT tool and pull back report (complete - KVRT.py)
 
 # 
 # Descriptions:
