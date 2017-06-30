@@ -30,8 +30,7 @@ while len(SensorsAwaitingVaccine) != 0:  # We're going to loop over these indefi
     for s in SensorsAwaitingVaccine:
         if 'online' in s.status.lower():
 
-            try:
-                
+            try:           
                 print("[INFO] Establishing CBLR session to " + str(s.hostname))
                 session = c.live_response.request_session(s.id)
                 print("[SUCCESS] Connected on CBLR Session #" + str(session.session_id))
