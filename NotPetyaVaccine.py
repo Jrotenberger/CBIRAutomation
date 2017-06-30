@@ -37,11 +37,11 @@ while len(SensorsAwaitingVaccine) != 0:  # We're going to loop over these indefi
             try: session.create_directory("C:\Windows\CarbonBlack\Tools")
             except Exception: pass  # Existed already
 
-            try: session.put_file(open(batch_path + r"\nopetyavac.bat", "rb"), r"C:\Windows\CarbonBlack\Tools\.bat")
+            try: session.put_file(open(batch_path + r"\nopetyavac.bat", "rb"), r"C:\Windows\CarbonBlack\Tools\nopetyavac.bat")
             except Exception: pass  # Existed already
 
             try:
-                session.create_process(r'C:\Windows\CarbonBlack\Reports\nopetyavac.bat', False)
+                session.create_process(r'C:\Windows\CarbonBlack\Tools\nopetyavac.bat', False)
                 SensorsAwaitingVaccine.remove(s)
                 print ("[SUCCESS] " + str(s.hostname) + " vaccinated against NotPetya Ransomware!")
 
