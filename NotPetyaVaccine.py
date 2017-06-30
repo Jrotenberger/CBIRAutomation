@@ -1,5 +1,5 @@
 # This python script will run the batch script created by Lawrence Abrams on each Windows endpoint.
-# This batch file deploys a vaccine against the NotPetya Ransomeware attack.
+# This batch file deploys a vaccine against the NotPetya Ransomeware/Wiper attack.
 # The batch file can be found at: https://download.bleepingcomputer.com/bats/nopetyavac.bat
 #
 # File: NotPetyaVaccine.py
@@ -24,7 +24,7 @@ for sens in sensors:
         if 'Uninstall' not in sens.status.lower():
             SensorsAwaitingVaccine.append(sens)  # We're creating a list of all installed Windows sensors
 
-print("[INFO] " + str(len(SensorsAwaitingVaccine)) + " sensors will be vaccinated against the NotPetya Ransomware...")
+print("[INFO] " + str(len(SensorsAwaitingVaccine)) + " sensors will be vaccinated against the NotPetya Ransomware/Wiper...")
 
 while len(SensorsAwaitingVaccine) != 0:  # We're going to loop over these indefinitely until all have the vaccine
     for s in SensorsAwaitingVaccine:
@@ -44,18 +44,18 @@ while len(SensorsAwaitingVaccine) != 0:  # We're going to loop over these indefi
                 try:
                     session.create_process(r'C:\\Windows\\CarbonBlack\\Tools\\nopetyavac.bat', False)
                     SensorsAwaitingVaccine.remove(s)
-                    print ("[SUCCESS] " + str(s.hostname) + " vaccinated against NotPetya Ransomware!")
+                    print ("[SUCCESS] " + str(s.hostname) + " vaccinated against NotPetya Ransomware/Wiper!")
 
                 except Exception, err:
                     print("[ERROR]: " + str(err))
-                    print ("[FAILURE] " + str(s.hostname) + " was NOT vaccinated against NotPetya Ransomware! Will try again later.")
+                    print ("[FAILURE] " + str(s.hostname) + " was NOT vaccinated against NotPetya Ransomware/Wiper! Will try again later.")
 
                 session.close()  # We could delete nopetyavac.bat from the remote sensor CB folder prior, but not required.
                 print("[INFO] CBLR session to " + str(s.hostname) + " has been closed")
                 
             except Exception, err:  # Added to catch other possible errors, like session timeout during connection attempt.
                 print("[ERROR]: " + str(err))
-                print ("[FAILURE] " + str(s.hostname) + " was NOT vaccinated against NotPetya Ransomware! Will try again later.")
+                print ("[FAILURE] " + str(s.hostname) + " was NOT vaccinated against NotPetya Ransomware/Wiper! Will try again later.")
             
             print("[INFO] There are now " + str(len(SensorsAwaitingVaccine)) + " sensors awaiting the vaccination...")
 
