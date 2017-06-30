@@ -32,7 +32,7 @@ while len(SensorsAwaitingVaccine) != 0:  # We're going to loop over these indefi
 
             print("[INFO] Establishing CBLR session to " + str(s.hostname))
             session = c.live_response.request_session(s.id)
-            print("[SUCCESS] Connected to CB Sensor #2461 on CBLR Session #" + str(session.session_id))
+            print("[SUCCESS] Connected on CBLR Session #" + str(session.session_id))
 
             try: session.create_directory("C:\Windows\CarbonBlack\Tools")
             except Exception: pass  # Existed already
