@@ -20,7 +20,7 @@ c.cb_server_version = LooseVersion('5.1.0')
 
 sensors = c.select(Sensor, 1)  # Define 1 or more sensors we want to delete a file / path on
 upv_path = r"C:\Users\admin\Desktop\CBScripts"  # Where is local UserProfilesView.exe ?
-save_path = r"C:\Users\admin\CBScripts\dumps"  # Where to save user accounts data file returned ?
+save_path = r"C:\Users\admin\Desktop\CBScripts\dumps"  # Where to save user accounts data file returned ?
 
 s = sensors  # We'd use this if only checking one sensor
 # for s in sensors:  # We'd use this if sensors was a list, not a single sensor
