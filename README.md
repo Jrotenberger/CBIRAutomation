@@ -30,6 +30,6 @@ Initial attempt to use CB API for incident response.
 
  - Forcefully_Delete_Path_Or_File deletes a path or file aggresively, kills running processes if necessary.
 
- - Get_User_Accounts Runs a light freeware process on a windows machine and returns an HTML logfile of all acounts on an endpoint.
+ - Get_User_Accounts runs a light freeware process on a windows machine and returns an HTML logfile of all acounts on an endpoint.
 
- - List_All_Sensors Generates a list of all sensors the CB server has seen, and provides basic details about each.
+ - List_All_Sensors generates a list of all sensors the CB server has seen, and provides basic details about each.
