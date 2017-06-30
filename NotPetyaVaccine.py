@@ -3,7 +3,7 @@
 # The batch file can be found at: https://download.bleepingcomputer.com/bats/nopetyavac.bat
 #
 # File: NotPetyaVaccine.py
-# Date: 06/20/2017
+# Date: 06/30/2017
 # Author: Jared F
 
 import time
