@@ -33,3 +33,5 @@ CB API scripts for incident response and analysis.
  - Get_User_Accounts runs a light freeware process on a windows machine and returns an HTML logfile of all acounts on an endpoint.
 
  - List_All_Sensors generates a list of all sensors the CB server has seen, and provides basic details about each.
+
+ - NotPetyaVaccine vaccinates all Windows endpoints against NotPetya Ransomware.
