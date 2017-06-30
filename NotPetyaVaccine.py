@@ -37,7 +37,7 @@ while len(SensorsAwaitingVaccine) != 0:  # We're going to loop over these indefi
             try: session.create_directory("C:\Windows\CarbonBlack\Tools")
             except Exception: pass  # Existed already
 
-            try: session.put_file(open(batch_path + r"\nopetyavac.bat", "rb"), r"C:\Windows\CarbonBlack\Reports\nopetyavac.bat")
+            try: session.put_file(open(batch_path + r"\nopetyavac.bat", "rb"), r"C:\Windows\CarbonBlack\Tools\.bat")
             except Exception: pass  # Existed already
 
             try:
@@ -49,7 +49,7 @@ while len(SensorsAwaitingVaccine) != 0:  # We're going to loop over these indefi
                 print("[ERROR]: " + str(err))
                 print ("[FAILURE] " + str(s.hostname) + " was NOT vaccinated against NotPetya Ransomware!")
 
-            session.close()
+            session.close()  # We could delete nopetyavac.bat from the remote sensor CB folder prior, but not required.
             print("[INFO] CBLR session to " + str(s.hostname) + " has been closed")
             print("[INFO] There are now " + str(len(SensorsAwaitingVaccine)) + " sensors awaiting the vaccination...")
 
