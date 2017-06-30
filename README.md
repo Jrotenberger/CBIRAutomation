@@ -12,24 +12,24 @@ Initial attempt to use CB API for incident response.
 
 # 
 # Descriptions:
-#AVSIG forces an AV Signature update
+ - AVSIG forces an AV Signature update
 
-#AVLogs pulls back the AV logs (Microsoft)
+ - AVLogs pulls back the AV logs (Microsoft)
 
-#ArtifactCapture executes the ArtifactCaptureCB.ps1 Powershell script to capture key live forensic artifacts including memory.  That script can be found in my other repo.
+ - ArtifactCapture executes the ArtifactCaptureCB.ps1 Powershell script to capture key live forensic artifacts including memory.  That script can be found in my other repo.
 
-#EndpointQuery currently returns the sensor ID number - will add some other sensor details
+ - EndpointQuery currently returns the sensor ID number - will add some other sensor details
 
-#KVRT deploys the tool, returns the log file and deletes the tool
+ - KVRT deploys the tool, returns the log file and deletes the tool
 
-#MemoryCapture deploys winpmem and writes the memory to a network share
+ - MemoryCapture deploys winpmem and writes the memory to a network share
 
-#Fullscan executes a full AV scan
+ - Fullscan executes a full AV scan
 
-#Putex deploys Junkware Removal Tool from Malwarebytes and returns the log. Used to remove PUPs.
+ - Putex deploys Junkware Removal Tool from Malwarebytes and returns the log. Used to remove PUPs.
 
-#Forcefully_Delete_Path_Or_File deletes a path or file aggresively, kills running processes if necessary.
+ - Forcefully_Delete_Path_Or_File deletes a path or file aggresively, kills running processes if necessary.
 
-#Get_User_Accounts Runs a light freeware process on a windows machine and returns an HTML logfile of all acounts on an endpoint.
+ - Get_User_Accounts Runs a light freeware process on a windows machine and returns an HTML logfile of all acounts on an endpoint.
 
-#List_All_Sensors Generates a list of all sensors the CB server has seen, and provides basic details about each.
+ - List_All_Sensors Generates a list of all sensors the CB server has seen, and provides basic details about each.
