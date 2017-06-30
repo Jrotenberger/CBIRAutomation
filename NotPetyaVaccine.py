@@ -47,7 +47,7 @@ while len(SensorsAwaitingVaccine) != 0:  # We're going to loop over these indefi
 
             except Exception, err:
                 print("[ERROR]: " + str(err))
-                print ("[FAILURE] " + str(s.hostname) + " was NOT vaccinated against NotPetya Ransomware!")
+                print ("[FAILURE] " + str(s.hostname) + " was NOT vaccinated against NotPetya Ransomware! Will try again later.")
 
             session.close()  # We could delete nopetyavac.bat from the remote sensor CB folder prior, but not required.
             print("[INFO] CBLR session to " + str(s.hostname) + " has been closed")
