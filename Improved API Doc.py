@@ -58,7 +58,7 @@ SENSOR OBJECT:
 
 	#sensor = c.select(Sensor, sensor_id) #One sensor, by ID
 	#sensors = c.select(Sensor) #All sensors, online and offline
-	#sensors = c.select(Sensor).where('groupid:3') #All sensors that are in group ID 3 (IT Sec)
+	#sensors = c.select(Sensor).where('groupid:3') #All sensors that are in group ID 3
 	
 		Methods:
 		
