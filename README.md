@@ -35,3 +35,5 @@ CB API scripts for incident response and analysis.
  - List_All_Sensors generates a list of all sensors the CB server has seen, and provides basic details about each.
 
  - NotPetyaVaccine vaccinates all Windows endpoints against the NotPetya Ransomware/Wiper.
+ 
+ - Improved API Doc contains notes taken regarding the Response API. Dirty, but a useful WIP.
