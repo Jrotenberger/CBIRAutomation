@@ -22,17 +22,39 @@ API OBJECT:
 			
 			create() #Creates a new object, only certain ones can be created
 				@param #cls (Model): The Model object to create, ie Feed, see "MODEL OBJECT LIST" at bottom
-				@raises # ApiError if the Model cannot be created
+				@raises #ApiError: if the Model cannot be created
 			
 			_perform_query()# This has the effect of returning an empty iterator
 			
 			url() #Gets the URL of the API/CB interface server
-				@return # (String) The URL
+				@return #(String): The URL
+				
+			info() #Gets information about the CB server settings
+				@return #(String in dict format): Information retrieved from the ``/api/info`` API route
+				
+			license_request() #Gets the license key block from the CB server
+				@return #(String): The license key enclosed within lines "-- --- BEGIN CB LICENSE REQUEST --- --" and "-- --- END CB LICENSE REQUEST --- --"
+				
+			update_license(license_block) #Sets a new license key block on the CB server, dangerous
+				@param #license_block (String): The new license key
+				@raises #ServerError: if the license key is rejected by the CB server
+				
+			from_ui(uri) #Retrieve a CB Response object based on URL from the CB web user interface, untested and potentially dangerous
+				@param #uri (String): Web browser URL from the Cb web interface
+				@return #(cbapi.response.models object) the appropriate model object for the URL provided
+				@raises #ApiError: if the URL does not correspond to a recognized model object
+				
+			create_new_partition() #Create a new Solr time partition for event storage. Available in Cb Response 6.1 and above.
+								   #Will force roll-over current hot partition into warm partition (by renaming it to a time-stamped name) and create a new hot partition ("writer").
+				@raises #ApiError: if there was an error creating the new partition.
+				@raises #ServerError: if there was an error creating the new partition.
+				
 	
 	
 		Attributes:
 		
 			URL #String: The URL of the API/CB interface server
+			server_info #String in JSON/dict format: Gets information about the CB server settings, same as info()
 			cb_server_version #Instance object, String-like: CB Server version
 			credentials #JSON Credentials object: Credentials of current API connection
 			credential_store #CredentialStore object: No real usage, but holds credential details
@@ -58,17 +80,17 @@ SENSOR OBJECT:
 
 	#sensor = c.select(Sensor, sensor_id) #One sensor, by ID
 	#sensors = c.select(Sensor) #All sensors, online and offline
-	#sensors = c.select(Sensor).where('groupid:3') #All sensors that are in group ID 3
+	#sensors = c.select(Sensor).where('groupid:3') #All sensors that are in group ID 3 (IT Sec)
 	
 		Methods:
 		
 			 lr_session() #Creates a Live Response session
-				@return #: A session object
-				@raises # ApiError if there is an error in establishing session 
+				@return #(session obj): A session object
+				@raises #ApiError: if there is an error in establishing session 
 				
 			request_session() #Creates a Live Response session, probably better to use than lr_session()
-				@return #: A session object
-				@raises # ApiError if there is an error in establishing session 
+				@return #(session obj): A session object
+				@raises #ApiError: if there is an error in establishing session 
 				
 			close_session(sensor_id, session_id) #Closes a Live Response session
 				@param #sensor_id (Int): The ID of the sensor that the session is with
@@ -78,13 +100,13 @@ SENSOR OBJECT:
 				
 			isolate(timeout=None) #Isolates sensor, kills netcons with exception of con between CB server and sensor
 				@param #timeout (Int): Seconds until timeout (None=?)
-				@return # True if sensor is isolated
-				@raises # TimeoutError if sensor does not isolate before timeout is reached
+				@return #(Bool): True if sensor is isolated
+				@raises #TimeoutError: if sensor does not isolate before timeout is reached
 				
 			unisolate(timeout=None) #Removes isolation from a sensor, allowing netcons again
 				@param #timeout (Int): Seconds until timeout (None=?)
-				@return # True if sensor is unisolated
-				@raises # TimeoutError if sensor does not unisolate before timeout is reached
+				@return #(Bool): True if sensor is unisolated
+				@raises #TimeoutError: if sensor does not unisolate before timeout is reached
 				
 			refresh() #Refreshes the sensor, resyncing it, dangerous unverified
 			
@@ -212,7 +234,7 @@ SESSION OBJECT:
 			close() #Closes and detaches from a session.
 				
 			get_session_archive(file_name, timeout=None, delay=None) #urllib3 HTTPResponse container object: The HTTP raw session object. (.data after will get tgz archive containing session and command json data files)
-				@return # Raw file object (.tgz with gzip compression)
+				@return #(Raw file object): (.tgz with gzip compression)
 				@raises # 
 				#Ex: with open(r"C:\Users\user101\Downloads\live-response-archive.tgz", 'wb') as f: f.write(session.get_session_archive().data) #Same functionality as archive command in Live Response
 				
@@ -220,23 +242,24 @@ SESSION OBJECT:
 				@param #file_name (String): Path/name of file
 				@param #timeout (int): Wait until timeout (None=120)
 				@param #delay (int): Wait before getting file (None=0.5)
-				@return # Raw file object
-				@raises # LiveResponseError, TimeoutError
+				@return #(Raw file object):
+				@raises #LiveResponseError:
+				@raises #TimeoutError:
 				
 			get_file(file_name) #Retrieve contents of the specified file name
 				@param #file_name (String): Path/name of file
-				@return #: Content of the specified file
+				@return #(String): Content of the specified file
 				
 			delete_file(filename) #Deletes a file
 				@param #filename (String): Path/name of file
 				
 			put_file(infp, remote_filename) #Create a new file with the specified data
-				@param #infp (): File data to put in the file
+				@param #infp (?): File data to put in the file
 				@param #remote_filename (String): Path/name of file
 				
 			list_directory(dir_name): #Lists the contents of a directory
 				@param #dir_name (String): Path/name of directory to list
-				@return # List of the files in the directory and attributes of each
+				@return #(list of dict objects): List of the files in the directory and attributes of each
 				
 				'''
 				List is made of dict objects. Attributes of the each dict is as follows:
@@ -272,7 +295,7 @@ SESSION OBJECT:
 				@param #topdown (Bool): If True, start output from top level directory
 				@param #onerror : Callback if an error occurs.
 				@param #followlinks (Bool): Follow symbolic links
-				@return # Output in the following tuple format: (Directory Name, [dirnames], [filenames])
+				@return #(tuple): Output in the following tuple format: (Directory Name, [dirnames], [filenames])
 				
 				'''
 				Example:
@@ -282,7 +305,7 @@ SESSION OBJECT:
 				
 			kill_process(pid) #Kills a process by PID
 				@param #pid (Int): Process ID to kill
-				@return # True of success, False if not
+				@return #(Bool): True of success, False if not
 			
 			create_process(command_string, wait_for_output=True, remote_output_file_name=None, working_directory=None, wait_timeout=30) #Creates a process under parent cb.exe (wininit.exe > services.exe > cb.exe > new process)
 				@param #command_string (String): Command string used for the create process operation
@@ -297,7 +320,7 @@ SESSION OBJECT:
 				'''
 				
 			list_processes() #Lists all proccesses
-				@return # List of the running processes 
+				@return #(List of dict objects): List of the running processes 
 				
 				'''
 				List is made of dict objects. Attributes of the each dict is as follows:
@@ -323,7 +346,7 @@ SESSION OBJECT:
 				
 			list_registry_keys_and_values(regkey) #Lists registry keys and values for a certain registry path
 				@param #regkey (String): The registry path to list out keys and values for
-				@return # A dict with 2 keys (sub_keys and values)
+				@return #(dict object): A dict with 2 keys (sub_keys and values)
 				
 				'''
 				Attributes of the each is as follows:
@@ -344,7 +367,7 @@ SESSION OBJECT:
 				
 			list_registry_keys(regkey) #Lists registry keys for a certain registry path, appears to be buggy?
 				@param #regkey (String): The registry path to list out keys for
-				@return # A list of keys
+				@return #(List of dict objects): A list of keys
 				
 				'''
 				Attributes of values is as follows:
@@ -362,7 +385,7 @@ SESSION OBJECT:
 				
 			get_registry_value(regkey)#Lists registry values for a certain registry key
 				@param #regkey (String): The registry path to get values for
-				@return # A dict with keys
+				@return #(dict object): A dict with keys
 				
 				'''
 				Attributes of values is as follows:
@@ -405,7 +428,7 @@ SESSION OBJECT:
 				@param #compress (Bool): True if should be compressed
 				
 			_random_file_name() #Returns random path for dumping temp files to on remote sensor, used in memdump() sorce code
-				@return # A pathname string like "c:\windows\carbonblack\cblr.HfljYQdXG3sk.tmp" (either in /tmp or /cabonblack depending on OS)
+				@return #(String): A pathname like "c:\windows\carbonblack\cblr.HfljYQdXG3sk.tmp" (either in /tmp or /cabonblack depending on OS)
 				
 				
 		Attributes:
