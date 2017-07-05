@@ -19,6 +19,15 @@ API OBJECT:
 					.where('value:3') #Allows narrowing selection, values: groupid, hostname, ip
 					._clone() #(Query): Returns a clone of a querey
 					._count() #(Int): Returns total number in selection
+					
+							
+			.live_response.request_session() #Creates a Live Response session, probably better to use than lr_session()
+				@return #(session obj): A session object
+				@raises #ApiError: if there is an error in establishing session 
+				
+			.live_response.close_session(sensor_id, session_id) #Closes a Live Response session
+				@param #sensor_id (Int): The ID of the sensor that the session is with
+				@param #session_id (Int):  The ID of the session
 			
 			create() #Creates a new object, only certain ones can be created
 				@param #cls (Model): The Model object to create, ie Feed, see "MODEL OBJECT LIST" at bottom
@@ -87,14 +96,6 @@ SENSOR OBJECT:
 			 lr_session() #Creates a Live Response session
 				@return #(session obj): A session object
 				@raises #ApiError: if there is an error in establishing session 
-				
-			request_session() #Creates a Live Response session, probably better to use than lr_session()
-				@return #(session obj): A session object
-				@raises #ApiError: if there is an error in establishing session 
-				
-			close_session(sensor_id, session_id) #Closes a Live Response session
-				@param #sensor_id (Int): The ID of the sensor that the session is with
-				@param #session_id (Int):  The ID of the session
 				
 			flush_events() #Flushes events for the sensor, dangerous because this may cause a significant amount of network traffic from this sensor to the Cb Response Server 
 				
