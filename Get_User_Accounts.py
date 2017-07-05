@@ -18,7 +18,7 @@ c = CbEnterpriseResponseAPI()
 from distutils.version import LooseVersion
 c.cb_server_version = LooseVersion('5.1.0')
 
-sensors = c.select(Sensor, 1)  # Define 1 or more sensors we want to delete a file / path on
+sensors = c.select(Sensor, 1)  # Define 1 or more sensors we want to get accounts from
 upv_path = r"C:\Users\admin\Desktop\CBScripts"  # Where is local UserProfilesView.exe ?
 save_path = r"C:\Users\admin\Desktop\CBScripts\dumps"  # Where to save user accounts data file returned ?
 
