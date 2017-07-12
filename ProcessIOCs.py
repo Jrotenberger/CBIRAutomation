@@ -300,6 +300,9 @@ def process():
                     if ":" in IOC:
                         sep = ':'
                         IOC = IOC.split(sep, 1)[0]
+                    if "/" in IOC:
+                        sep = '/'
+                        IOC = IOC.split(sep, 1)[0]
                     ips.append(IOC)
 
                 elif IOC_type in domainType:
