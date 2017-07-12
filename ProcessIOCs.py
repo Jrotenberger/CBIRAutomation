@@ -377,7 +377,7 @@ if __name__ == "__main__":
     paths = []
     anys = []
 
-    if os.path.exists(IOC_file) is False or not IOC_file.endswith(".csv"):
+    if os.path.exists(IOC_file) is False:
         print("[ERROR] IOC file does not exist at " + IOC_file)
         print("[FAILURE] Fatal error caused exit.")
         exit(1)
