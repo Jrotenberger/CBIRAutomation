@@ -1,4 +1,5 @@
 # This python script will check a CSV list of IOC's against Carbon Black and produce a neat results report CSV.
+# Must update IOC_file and IOC_report paths before script execution.
 # Prompts and warns user when needed, very robust.
 # Ability to ban hashes in CSV via --banhashes
 #
