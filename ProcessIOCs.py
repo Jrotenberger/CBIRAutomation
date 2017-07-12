@@ -1,3 +1,12 @@
+# This python script will check a CSV list of IOC's against Carbon Black and produce a neat results report CSV.
+# Prompts and warns user when needed, very robust.
+# Ability to ban hashes in CSV via --banhashes
+#
+#
+# File: ProcessIOCs.py
+# Date: 07/12/2017
+# Author: Jared F, ALLETE INC
+
 import csv
 import os
 import sys
@@ -34,6 +43,7 @@ global EmailDomainCheck  # Will emails have domain names extracted and checked? 
 global Hits  # Total IOC hits count
 
 
+# UnicodeWriter class from http://python3porting.com/problems.html
 class UniocodeWriter:
     def __init__(self, filename, dialect=csv.excel, encoding="utf-8", **kw):
         self.filename = filename
@@ -380,7 +390,7 @@ if __name__ == "__main__":
             print("[FAILURE] User requested exit.")
             exit(1)
         else:
-            open(IOC_report, 'w').close()  # opens and overwrites with emptiness since append 'a' is not present
+            open(IOC_report, 'w').close()  # Will open and overwrite as empty file
 
     response = raw_input("[USER PROMPT] Is column 1 the IOC types and column 2 the IOC's? [Y/N]: ").lower()
 
