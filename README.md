@@ -37,3 +37,5 @@ CB API scripts for incident response and analysis.
  - NotPetyaVaccine vaccinates all Windows endpoints against the NotPetya Ransomware/Wiper.
  
  - Improved API Doc contains notes taken regarding the Response API. Dirty, but a useful WIP.
+ 
+ -ProcessIOCs will process a CSV file of IOC's by checking CB against each. The script digs into the events of results to get exact hit in a returned CSV report file with all the details of each hit. Capable of processing IPs, domains, MD5s, files/paths, and emails. Prompts user at initial phases to ensure proper functionality. Also has ability to ban all hashes in the IOC CSV by adding --banhashes command-line to execution.
