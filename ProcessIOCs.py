@@ -26,7 +26,7 @@ IOC_report = r"C:\Users\user\Desktop\IOC_Report.csv"  # Where should IOC result 
 
 # These are for what the script might encounter as types in the IOC list data file. Add as needed.
 ipType = ["ip", "ipv4", "address", "ip address", "ipv4 address", "ip v4 address", "ip address v4"]
-domainType = ["domain", "hostname", "url", "website", "site"]
+domainType = ["domain", "hostname", "url", "uri", "website", "site"]
 md5Type = ["md5", "message-digest algorithm v5", "message digest algorithm v5", "message digest v5", "filehash-md5", "hash"]
 pathType = ["file", "filepath", "file path", "path", "location", "process"]
 emailType = ["email", "e-mail", "mail", "email address", "e-mail address", "mail address"]
