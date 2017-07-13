@@ -18,7 +18,7 @@ c = CbEnterpriseResponseAPI()
 from distutils.version import LooseVersion
 
 sensors = c.select(Sensor, 1)  # Define 1 or more sensors we want to delete a file / path on
-upv_path = r"C:\Users\UserAccount\Desktop"  # Where is local BrowsingHistoryView.exe ?
+bhv_path = r"C:\Users\UserAccount\Desktop"  # Where is local BrowsingHistoryView.exe ?
 save_path = r"C:\Users\UserAccount\Desktop"  # Where to save user accounts data file returned ?
 
 s = sensors  # We'd use this if only checking one sensor
@@ -34,7 +34,7 @@ try:
     except Exception: pass  # Existed already
     try: session.create_directory("C:\Windows\CarbonBlack\Tools")
     except Exception: pass  # Existed already
-    try: session.put_file(open(upv_path + "\BrowsingHistoryView.exe", "rb"), "C:\Windows\CarbonBlack\Tools\BHV.exe")
+    try: session.put_file(open(bhv_path + "\BrowsingHistoryView.exe", "rb"), "C:\Windows\CarbonBlack\Tools\BHV.exe")
     except Exception: pass  # Existed already
     session.create_process(r'C:\Windows\CarbonBlack\Tools\BHV.exe /shtml "C:\Windows\CarbonBlack\Reports\bh-dump.html" /sort "URL" /sort "Visited On"', False)
     print ("[SUCCESS] Executed on Sensor!")
