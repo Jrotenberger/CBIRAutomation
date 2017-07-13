@@ -26,7 +26,7 @@ sensors = c.select(Sensor, 1)  # Here we define 1 or more sensors we want to del
 s = sensors  # We'd use this if only checking one sensor
 # for s in sensors:  # We'd use this if sensors was a list, not a single sensor
 
-print("[INFO] Establishing session to CB Sensor #398...")
+print("[INFO] Establishing session to CB Sensor #" + str(sensor.id))
 
 try:
     session = c.live_response.request_session(s.id)
@@ -74,7 +74,7 @@ except: () # Do nothing, and keep going...
 time.sleep(3)  # Give the server a break, it may be tired... ensures script and server are synced
 session.close()  # Close the session!
 
-print("[INFO] Session has been closed to CB Sensor " + str(s.hostname))
+print("[INFO] Session has been closed to CB Sensor #" + str(sensor.id))
 
 
 print("[INFO] Script completed.")
