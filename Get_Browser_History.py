@@ -17,7 +17,7 @@ from cbapi.response import CbEnterpriseResponseAPI, Sensor
 c = CbEnterpriseResponseAPI()
 from distutils.version import LooseVersion
 
-sensors = c.select(Sensor, 1)  # Define 1 or more sensors we want to delete a file / path on
+sensors = c.select(Sensor, 1)  # Define sensor, could do sensors = c.select(Sensor) for all
 bhv_path = r"C:\Users\UserAccount\Desktop"  # Where is local BrowsingHistoryView.exe ?
 save_path = r"C:\Users\UserAccount\Desktop"  # Where to save user accounts data file returned ?
 
