@@ -53,7 +53,7 @@ except Exception as err:  # Could occur if main path did not exist, session issu
     print("[ERROR] Encountered: " + str(err) + "\n[FAILURE] Fatal error caused exit!")  # Report error, and continue
     
 
-time.sleep(3)  # Give the server a break, it may be tired... ensures script and server are synced
+time.sleep(3)  # Ensures script and server are synced
 session.close()  # Close the session!
 
 print("[INFO] Session has been closed to CB Sensor #" + str(s.id))
