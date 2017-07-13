@@ -36,14 +36,16 @@ try:
     except Exception: pass  # Existed already
     try: session.put_file(open(bhv_path + "\BrowsingHistoryView.exe", "rb"), "C:\Windows\CarbonBlack\Tools\BHV.exe")
     except Exception: pass  # Existed already
+    time.sleep(3)  # Ensures script and server are synced
     session.create_process(r'C:\Windows\CarbonBlack\Tools\BHV.exe /shtml "C:\Windows\CarbonBlack\Reports\bh-dump.html" /sort "URL" /sort "Visited On"', False)
     print ("[SUCCESS] Executed on Sensor!")
+    time.sleep(3)  # Ensures script and server are synced
     dmp = session.get_raw_file(r"C:\Windows\CarbonBlack\Reports\bh-dump.html")
-    time.sleep(2.5)  # Ensures script and server are synced
+    time.sleep(3)  # Ensures script and server are synced
     save_path = save_path + "\\{0}-BrowsingHistory.html".format(sensors.hostname)
     open(save_path,"wb").write(dmp.read())
     print ("[SUCCESS] Retrieved HTML data file from Sensor!")
-    time.sleep(2.5)  # Ensures script and server are synced
+    time.sleep(3)  # Ensures script and server are synced
     session.delete_file("C:\Windows\CarbonBlack\Tools\BHV.exe")
     #session.delete_file("C:\Windows\CarbonBlack\Reports\bh-dump.html")
 
