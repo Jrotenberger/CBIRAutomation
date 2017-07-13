@@ -25,11 +25,12 @@ save_path = r"C:\Users\admin\Desktop\CBScripts\dumps"  # Where to save user acco
 s = sensors  # We'd use this if only checking one sensor
 # for s in sensors:  # We'd use this if sensors was a list, not a single sensor
 
-print("[INFO] Establishing session to CB Sensor" + str(s.hostname))
-session = s.lr_session()
-print("[SUCCESS] Connected on Session #" + str(session.session_id))
+print("[INFO] Establishing session to CB Sensor #" + str(s.id))
 
 try:
+    session = c.live_response.request_session(s.id)
+    print("[SUCCESS] Connected to CB Sensor on Session #" + str(session.session_id))
+
     try: session.create_directory("C:\Windows\CarbonBlack\Reports")
     except Exception: pass  # Existed already
     try: session.put_file(open(upv_path + "\UserProfilesView.exe", "rb"), "C:\Windows\CarbonBlack\Reports\UPV.exe")
@@ -51,7 +52,7 @@ except Exception as err:  # Could occur if main path did not exist, session issu
 time.sleep(3)  # Give the server a break, it may be tired... ensures script and server are synced
 session.close()  # Close the session!
 
-print("[INFO] Session has been closed to CB Sensor " + str(s.hostname))
+print("[INFO] Session has been closed to CB Sensor #" + str(s.id))
 
 
 print("[INFO] Script completed.")
