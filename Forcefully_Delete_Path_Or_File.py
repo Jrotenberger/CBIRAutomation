@@ -30,7 +30,7 @@ print("[INFO] Establishing session to CB Sensor #" + str(s.id))
 
 try:
     session = c.live_response.request_session(s.id)
-    print("[SUCCESS] Connected to CB Sensor #2461 on Session #" + str(session.session_id))
+    print("[SUCCESS] Connected to CB Sensor on Session #" + str(session.session_id))
     
     path = session.walk(p, False)  # Walk path. False parameter is to bottom->up walk, not top->down
     exes = []
