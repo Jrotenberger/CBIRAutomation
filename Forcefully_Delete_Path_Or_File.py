@@ -26,11 +26,12 @@ sensors = c.select(Sensor, 1)  # Here we define 1 or more sensors we want to del
 s = sensors  # We'd use this if only checking one sensor
 # for s in sensors:  # We'd use this if sensors was a list, not a single sensor
 
-print("[INFO] Establishing session to CB Sensor" + str(s.hostname))
-session = s.lr_session()
-print("[SUCCESS] Connected on Session #" + str(session.session_id))
+print("[INFO] Establishing session to CB Sensor #398...")
 
 try:
+    session = c.live_response.request_session(s.id)
+    print("[SUCCESS] Connected to CB Sensor #2461 on Session #" + str(session.session_id))
+    
     path = session.walk(p, False)  # Walk path. False parameter is to bottom->up walk, not top->down
     exes = []
     for items in path:  # For each subdirectory in the path
