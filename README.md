@@ -31,6 +31,8 @@ CB API scripts for incident response and analysis.
  - Forcefully_Delete_Path_Or_File deletes a path or file aggresively, kills running processes if necessary.
 
  - Get_User_Accounts runs a light freeware process on a windows machine and returns an HTML logfile of all acounts on an endpoint.
+ 
+ - Get_Browser_History runs a light freeware process on a windows machine and returns an HTML logfile of all browsing history for Internet Explorer, Mozilla Firefox, Google Chrome, and Safari browsers.
 
  - List_All_Sensors generates a list of all sensors the CB server has seen, and provides basic details about each.
 
