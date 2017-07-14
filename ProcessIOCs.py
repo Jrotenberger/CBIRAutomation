@@ -318,7 +318,7 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
                         sep = '/'
                         IOC = IOC.split(sep, 1)[0]
 
-                        if IOC not in domains: domains.append(IOC)
+                    if IOC not in domains: domains.append(IOC)
 
                 elif IOC_type in md5Type:
                     if len(IOC) == 32:
