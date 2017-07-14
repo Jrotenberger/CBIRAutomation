@@ -305,7 +305,7 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
                     if "/" in IOC:
                         sep = '/'
                         IOC = IOC.split(sep, 1)[0]
-                    ips.append(IOC)
+                    if IOC not in ips: ips.append(IOC)
 
                 elif IOC_type in domainType:
                     if IOC.startswith("http://") or IOC.startswith("https://"):
@@ -318,14 +318,14 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
                         sep = '/'
                         IOC = IOC.split(sep, 1)[0]
 
-                    domains.append(IOC)
+                        if IOC not in domains: domains.append(IOC)
 
                 elif IOC_type in md5Type:
                     if len(IOC) == 32:
-                        md5s.append(IOC)
+                        if IOC not in md5s: md5s.append(IOC)
 
                 elif IOC_type in pathType:
-                    paths.append(IOC)
+                    if IOC not in paths: paths.append(IOC)
 
                 elif IOC_type in emailType:
                     if EmailDomainCheck is "Default":
@@ -338,10 +338,10 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
                     if EmailDomainCheck is "T":
                         domain = IOC.split("@")[-1]
                         domain = domain.replace("@", "")
-                        domains.append(domain)
+                        if IOC not in domains: domains.append(domain)
 
                 elif IOC_type == "any":
-                    anys.append(IOC)
+                    if IOC not in anys: anys.append(IOC)
 
                 elif IOCTypeDefined is "Default":
                     print ("   [WARNING] Encountered '" + IOC_type + "' with IOC: '" + IOC + "' (skipping line...)")
