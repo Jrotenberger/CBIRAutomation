@@ -22,8 +22,8 @@ from urlparse import urlparse
 
 c = CbEnterpriseResponseAPI()
 
-IOC_file = r"C:\Users\jfagel\Desktop\test.csv"  # Where is the IOC list data file? Must be a CSV
-IOC_report = r"C:\Users\jfagel\Desktop\IOC_Report.csv"  # Where should IOC result file be stored? Must be a CSV
+IOC_file = r"C:\Users\YourAccount\Desktop\IOC_Data_List.csv"  # Where is the IOC list data file? Must be a CSV
+IOC_report = r"C:\Users\YourAccount\Desktop\IOC_Report.csv"  # Where should IOC result file be stored? Must be a CSV
 
 # These are for what the script might encounter as types in the IOC list data file. Add as needed.
 ipType = ["ip", "ipv4", "address", "ip address", "ipv4 address", "ip v4 address", "ip address v4"]
