@@ -1,4 +1,4 @@
-# This python script will check a CSV list of IOC's against Carbon Black and produce a neat results report CSV.
+# This python script will check a CSV list of IOCs against Carbon Black and produce a neat results report CSV.
 # Must update IOC_file and IOC_report paths before script execution.
 # Fairly fast, more hits will result in longer execution time.
 # Prompts and warns user when needed, very robust.
@@ -7,7 +7,8 @@
 #
 # File: ProcessIOCs.py
 # Date: 07/12/2017
-# Author: Jared F, ALLETE INC
+# Author: Jared Fagel, ALLETE INC
+
 
 import csv
 import os
@@ -21,8 +22,8 @@ from urlparse import urlparse
 
 c = CbEnterpriseResponseAPI()
 
-IOC_file = r"C:\Users\user\Desktop\IOC_List.csv"  # Where is the IOC list data file? Must be a CSV
-IOC_report = r"C:\Users\user\Desktop\IOC_Report.csv"  # Where should IOC result file be stored? Must be a CSV
+IOC_file = r"C:\Users\jfagel\Desktop\test.csv"  # Where is the IOC list data file? Must be a CSV
+IOC_report = r"C:\Users\jfagel\Desktop\IOC_Report.csv"  # Where should IOC result file be stored? Must be a CSV
 
 # These are for what the script might encounter as types in the IOC list data file. Add as needed.
 ipType = ["ip", "ipv4", "address", "ip address", "ipv4 address", "ip v4 address", "ip address v4"]
@@ -75,7 +76,7 @@ class UniocodeWriter:
             self.writerow(row)
 
 
-def event_summary(event, toc, ioc):
+def event_summary(event, toc, ioc):  # Finds if the IOC is in the event, and returns a summary of that event if it is
     timestamp = str(event.timestamp.strftime("%m-%d-%Y %H:%M:%S.%f%z"))
 
     if type(event) == CbFileModEvent:
@@ -103,7 +104,7 @@ def event_summary(event, toc, ioc):
                     dmn = event.domain
 
                 ipad += ':%d' % event.remote_port + " (" + str(dmn) + ")"
-                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, event.direction + ' netconn', ipad, timestamp]
+                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, event.direction + ' Netconn', ipad, timestamp]
             
         elif toc == "domain":
             if event.domain:
@@ -111,7 +112,7 @@ def event_summary(event, toc, ioc):
                 if dmn == ioc:
                     ipad = event.remote_ip
                     ipad += ':%d' % event.remote_port + " (" + str(dmn) + ")"
-                    return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, event.direction + ' netconn', ipad, timestamp]
+                    return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, event.direction + ' Netconn', ipad, timestamp]
 
         elif toc == "any":
             ipad = event.remote_ip
@@ -121,7 +122,7 @@ def event_summary(event, toc, ioc):
 
             if ipad == ioc or dmn == ioc:
                 ipad += ':%d' % event.remote_port + " (" + str(dmn) + ")"
-                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, event.direction + ' netconn', ipad, timestamp]
+                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, event.direction + ' Netconn', ipad, timestamp]
 
         return None
 
@@ -144,30 +145,30 @@ def event_summary(event, toc, ioc):
 
         if toc == "md5":
             if event.md5 == ioc:
-                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path,  'childproc', childproc + " in " + event.path + " (" + event.md5 + ")", timestamp]
+                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path,  'Childproc', childproc + " in " + event.path + " (" + event.md5 + ")", timestamp]
 
         elif toc == "path":
             if (ioc in event.path) or (ioc in childproc):
-                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, 'childproc', childproc + " in " + event.path + " (" + event.md5 + ")", timestamp]
+                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, 'Childproc', childproc + " in " + event.path + " (" + event.md5 + ")", timestamp]
 
         elif toc == "any":
             if (ioc in event.path) or event.md5 == ioc or (ioc in childproc):
-                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, 'childproc', childproc + " in " + event.path + " (" + event.md5 + ")", timestamp]
+                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, 'Childproc', childproc + " in " + event.path + " (" + event.md5 + ")", timestamp]
 
         return None
 
     elif type(event) == CbModLoadEvent:
         if toc == "md5":
             if event.md5 == ioc:
-                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path,  'modload', event.path + " (" + event.md5 + ")", timestamp]
+                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path,  'Modload', event.path + " (" + event.md5 + ")", timestamp]
             
         elif toc == "path":
             if ioc in event.path:
-                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, 'modload', event.path + " (" + event.md5 + ")", timestamp]
+                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, 'Modload', event.path + " (" + event.md5 + ")", timestamp]
 
         elif toc == "any":
             if (ioc in event.path) or event.md5 == ioc:
-                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, 'modload', event.path + " (" + event.md5 + ")", timestamp]
+                return [toc + ": " + ioc, event.parent.hostname, event.parent.username, event.parent.process_name, event.parent.process_md5, event.parent.path, 'Modload', event.path + " (" + event.md5 + ")", timestamp]
 
         return None
 
@@ -189,7 +190,7 @@ def event_summary(event, toc, ioc):
         return None
 
 
-def write_csv(proc, toc, ioc, filename):
+def write_csv(proc, toc, ioc, filename):  # Processes the CSV writing of the results report by sorting through process events and sending them to event_summary()
     global Hits
 
     with UniocodeWriter(filename) as eventwriter:
@@ -204,7 +205,8 @@ def write_csv(proc, toc, ioc, filename):
         elif toc == "md5":
             if proc.process_md5 == ioc:
                 timestamp = str(proc.start.strftime("%m-%d-%Y %H:%M:%S.%f%z"))
-                eventwriter.writerow([toc + ": " + ioc, proc.hostname, proc.username, proc.process_name, proc.process_md5, proc.path, 'process', proc.cmdline, timestamp]) # proc.webui_link
+                Hits = Hits + 1
+                eventwriter.writerow([toc + ": " + ioc, proc.hostname, proc.username, proc.process_name, proc.process_md5, proc.path, 'ProcessRun', proc.cmdline, timestamp])  # proc.webui_link
             else:
                 for event in proc.filemods:
                     summary = event_summary(event, toc, ioc)
@@ -227,7 +229,8 @@ def write_csv(proc, toc, ioc, filename):
         elif toc == "path":
             if proc.process_md5 == ioc or (ioc in proc.cmdline) or (ioc in proc.path):
                 timestamp = str(proc.start.strftime("%m-%d-%Y %H:%M:%S.%f%z"))
-                eventwriter.writerow([toc + ": " + ioc, proc.hostname, proc.username, proc.process_name, proc.process_md5, proc.path, 'process', proc.cmdline, timestamp]) # proc.webui_link
+                Hits = Hits + 1
+                eventwriter.writerow([toc + ": " + ioc, proc.hostname, proc.username, proc.process_name, proc.process_md5, proc.path, 'ProcessRun', proc.cmdline, timestamp])  # proc.webui_link
 
             else:
                 for event in proc.filemods:
@@ -265,9 +268,9 @@ def write_csv(proc, toc, ioc, filename):
             if proc.process_md5 == ioc or (ioc in proc.cmdline) or str(proc.hostname) == ioc or str(proc.username) == ioc or str(proc.process_name) == ioc or (ioc in proc.path):  # Process itself is match
                 timestamp = str(proc.start.strftime("%m-%d-%Y %H:%M:%S.%f%z"))
                 Hits = Hits + 1
-                eventwriter.writerow([toc + ": " + ioc, proc.hostname, proc.username, proc.process_name, proc.process_md5, proc.path, 'process', proc.cmdline, timestamp]) # proc.webui_link
+                eventwriter.writerow([toc + ": " + ioc, proc.hostname, proc.username, proc.process_name, proc.process_md5, proc.path, 'ProcessRun', proc.cmdline, timestamp])  # proc.webui_link
 
-            else:  # Must be match within process event
+            else:  # Match must be in process event
                 for event in proc.all_events:
                     summary = event_summary(event, toc, ioc)
                     if summary:
@@ -275,14 +278,13 @@ def write_csv(proc, toc, ioc, filename):
                         eventwriter.writerow(summary)
 
 
-def process():
+def process():  # Reads the CSV list of IOCs and processes it as intelligently as possible
     global IOCTypeCol
     global IOCCol
     global IOCTypeDefined
     global EmailDomainCheck
 
     IOC_type = IOCTypeDefined
-
     with open(IOC_file, 'rb') as csvfile:
         csvDialect = csv.Sniffer().sniff(csvfile.read(1024))
         csvfile.seek(0)
@@ -347,14 +349,23 @@ def process():
                     print ("   [WARNING] Encountered: '" + IOC + "' (skipping line...)")
 
         if(IOCTypeDefined == "any"):
-            print("\n[INFO] IOC's:" + str(anys))
-            response = (raw_input("[USER PROMPT] The IOC's above will be checked, if any are not IOC's, press N and remove from CSV, otherwise press any key to continue: ")).lower()
+            print("\n[INFO] IOCs:" + str(anys))
+            response = (raw_input("[USER PROMPT] The IOCs above will be checked, if any are not IOCs, press N and remove from CSV, otherwise press any key to continue: ")).lower()
             if response == "n":
                 print("[FAILURE] User requested exit.")
                 exit(1)
 
 
-if __name__ == "__main__":
+def skip(the_ioc):  # A helper method that will prompt the user about 250+ possible hits on an IOC and check if it should be skipped from processing
+    print ("[WARNING] 250+ possible hits on : " + the_ioc + ". Recommend it be skipped from results to avoid lengthy wait time!")
+    response = raw_input("[USER PROMPT] Press Y to continue processing this IOC  anyway, or press any other key to skip it and continue: ").lower()
+    if response != "y":
+        return True
+    else:
+        return False
+
+
+if __name__ == "__main__":  # Main execution of ProcessIOCs
 
     global IOCTypeCol
     global IOCCol
@@ -395,17 +406,21 @@ if __name__ == "__main__":
             print("[FAILURE] User requested exit.")
             exit(1)
         else:
-            open(IOC_report, 'w').close()  # Will open and overwrite as empty file
+            try:
+                open(IOC_report, 'w').close()   # Will open and overwrite as empty file since append 'a' is not included
+            except IOError:
+                print("[ERROR] Unable to open " + IOC_report + " for writing! Is it open?\n[FAILURE] Fatal error caused exit.")
+                exit(1)
 
-    response = raw_input("[USER PROMPT] Is column 1 the IOC types and column 2 the IOC's? [Y/N]: ").lower()
+    response = raw_input("[USER PROMPT] Is column 1 the IOC types and column 2 the IOCs? [Y/N]: ").lower()
 
     if response == "n":
         IOCTypeCol = int(raw_input("[USER PROMPT] Which column are IOC types in? (Type -1 if N/A): ")) - 1
-        IOCCol = int(raw_input("[USER PROMPT] Which column are IOC's in?: ")) - 1
+        IOCCol = int(raw_input("[USER PROMPT] Which column are IOCs in?: ")) - 1
 
         if IOCTypeCol == -2:
 
-            t = (raw_input( "[USER PROMPT] What type of IOC's are in Column 1? (USE: 'ip' 'domain' 'md5' 'filepath' 'email' or 'any'): ")).lower()
+            t = (raw_input( "[USER PROMPT] What type of IOCs are in Column 1? (USE: 'ip' 'domain' 'md5' 'filepath' 'email' or 'any'): ")).lower()
 
             if type not in ipType and type not in domainType and type not in md5Type and type not in pathType and type not in emailType and not "any":
                 print("[ERROR] Invalid IOC type from user!\n[FAILURE] Fatal error caused exit.")
@@ -420,10 +435,10 @@ if __name__ == "__main__":
             BanningHashes = True
             BanReason = str(raw_input("[USER PROMPT] What should the hash ban description be in CB? "))
 
-    print "\n[INFO] Now Reading IOC's From IOC Data File..."
+    print "\n[INFO] Now Reading IOCs From IOC Data File..."
     process()
 
-    print "\n[INFO] Now Checking IOC's Against Carbon Black..."
+    print "\n[INFO] Now Checking IOCs Against Carbon Black..."
     print "[INFO] Depending on hit count, this process may take a while. Please wait...\n"
 
     with UniocodeWriter(IOC_report) as eventwriter:
@@ -431,19 +446,36 @@ if __name__ == "__main__":
 
     for ip in ips:
         query = ("" + str(ip))
-        for proc in c.select(Process).where(query).group_by("id"):
-            write_csv(proc, "ip", ip, IOC_report)
+
+        processes = (c.select(Process).where(query).group_by("id"))
+        for proc in processes:
+            if len(processes) > 250:
+                if skip(ip) is False:
+                    write_csv(proc, "ip", ip, IOC_report)
+            else:
+                write_csv(proc, "ip", ip, IOC_report)
 
     for d in domains:
         query = ("domain:" + str(d))
-        for proc in c.select(Process).where(query).group_by("id"):
-            write_csv(proc, "domain", d, IOC_report)
+
+        processes = (c.select(Process).where(query).group_by("id"))
+        for proc in processes:
+            if len(processes) > 250:
+                if skip(d) is False:
+                    write_csv(proc, "domain", d, IOC_report)
+            else:
+                write_csv(proc, "domain", d, IOC_report)
 
     for m in md5s:
         query = ("md5:" + str(m))
 
-        for proc in c.select(Process).where(query).group_by("id"):
-            write_csv(proc, "md5", m, IOC_report)
+        processes = (c.select(Process).where(query).group_by("id"))
+        for proc in processes:
+            if len(processes) > 250:
+                if skip(m) is False:
+                    write_csv(proc, "md5", m, IOC_report)
+            else:
+                write_csv(proc, "md5", m, IOC_report)
 
         if BanningHashes is True:
             skip_one = False
@@ -472,15 +504,27 @@ if __name__ == "__main__":
 
     for p in paths:
         query = ('path:"' + str(p) + '"')
-        for proc in c.select(Process).where(query).group_by("id"):
-            write_csv(proc, "path", p, IOC_report)
+
+        processes = (c.select(Process).where(query).group_by("id"))
+        for proc in processes:
+            if len(processes) > 250:
+                if skip(p) is False:
+                    write_csv(proc, "path", p, IOC_report)
+            else:
+                write_csv(proc, "path", p, IOC_report)
 
     for any1 in anys:
         query = ('"' + str(any1) + '"')
-        for proc in c.select(Process).where(query).group_by("id"):
-            write_csv(proc, "any", any1, IOC_report)
 
-    print ("\n[SUCCESS] The following IOC's were checked against Carbon Black:")
+        processes = (c.select(Process).where(query).group_by("id"))
+        for proc in processes:
+            if len(processes) > 250:
+                if skip(any1) is False:
+                    write_csv(proc, "any", any1, IOC_report)
+            else:
+                write_csv(proc, "any", any1, IOC_report)
+
+    print ("\n[SUCCESS] The following IOCs were checked against Carbon Black:")
 
     if IOCTypeDefined != "any":
         print ("   [INFO] IP's: " + str(ips))
@@ -488,7 +532,7 @@ if __name__ == "__main__":
         print ("   [INFO] MD5's: " + str(md5s))
         print ("   [INFO] Paths: " + str(paths))
     else:
-        print("   [INFO] IOC's:" + str(anys))
+        print("   [INFO] IOCs:" + str(anys))
 
     if Hits != 0:
         print("\n[ALERT] IOC HITS FOUND: " + str(Hits))
