@@ -357,8 +357,8 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
 
 
 def skip(the_ioc):  # A helper method that will prompt the user about 250+ possible hits on an IOC and check if it should be skipped from processing
-    print ("[WARNING] 250+ possible hits on : " + the_ioc + ". Recommend it be skipped from results to avoid lengthy wait time!")
-    response = raw_input("[USER PROMPT] Press Y to continue processing this IOC  anyway, or press any other key to skip it and continue: ").lower()
+    print ("[WARNING] 250+ possible hits on: " + the_ioc + " -Recommending it be skipped from results to avoid lengthy wait time!")
+    response = raw_input("[USER PROMPT] Press Y to continue processing this IOC anyway, or press any other key to skip it and continue: ").lower()
     if response != "y":
         return True
     else:
@@ -415,8 +415,8 @@ if __name__ == "__main__":  # Main execution of ProcessIOCs
     response = raw_input("[USER PROMPT] Is column 1 the IOC types and column 2 the IOCs? [Y/N]: ").lower()
 
     if response == "n":
-        IOCTypeCol = int(raw_input("[USER PROMPT] Which column are IOC types in? (Type -1 if N/A): ")) - 1
-        IOCCol = int(raw_input("[USER PROMPT] Which column are IOCs in?: ")) - 1
+        IOCTypeCol = int(raw_input("[USER PROMPT] Which column # are IOC types in? (Type -1 if N/A): ")) - 1
+        IOCCol = int(raw_input("[USER PROMPT] Which column # are IOCs in?: ")) - 1
 
         if IOCTypeCol == -2:
 
@@ -448,39 +448,48 @@ if __name__ == "__main__":  # Main execution of ProcessIOCs
         query = ("" + str(ip))
 
         processes = (c.select(Process).where(query).group_by("id"))
-        for proc in processes:
-            if len(processes) > 250:
-                if skip(ip) is False:
+        if len(processes) > 250:
+            if skip(ip) is False:
+                for proc in processes:
                     write_csv(proc, "ip", ip, IOC_report)
             else:
+                ips.remove(ip)
+        else:
+            for proc in processes:
                 write_csv(proc, "ip", ip, IOC_report)
 
     for d in domains:
         query = ("domain:" + str(d))
 
         processes = (c.select(Process).where(query).group_by("id"))
-        for proc in processes:
-            if len(processes) > 250:
-                if skip(d) is False:
+        if len(processes) > 250:
+            if skip(d) is False:
+                for proc in processes:
                     write_csv(proc, "domain", d, IOC_report)
             else:
+                domains.remove(d)
+        else:
+            for proc in processes:
                 write_csv(proc, "domain", d, IOC_report)
 
     for m in md5s:
         query = ("md5:" + str(m))
 
         processes = (c.select(Process).where(query).group_by("id"))
-        for proc in processes:
-            if len(processes) > 250:
-                if skip(m) is False:
+        if len(processes) > 250:
+            if skip(m) is False:
+                for proc in processes:
                     write_csv(proc, "md5", m, IOC_report)
             else:
+                md5s.remove(m)
+        else:
+            for proc in processes:
                 write_csv(proc, "md5", m, IOC_report)
 
         if BanningHashes is True:
             skip_one = False
             if len(c.select(Process).where("md5:" + m)) > 0 or len(c.select(Binary).where("md5:" + m)) > 0:
-                print ("[WARNING] Hit(s) found on hash: " + m + ". Could be false-positive!")
+                print ("[WARNING] Hit(s) found on hash: " + m + " -Could be false-positive!")
                 response = raw_input("[USER PROMPT] Press Y to continue banning this hash anyway, or press any other key to skip this banning: ").lower()
                 if response != "y":
                     print("[INFO] Hash with hits (" + m + ") has been skipped from banning")
@@ -506,22 +515,28 @@ if __name__ == "__main__":  # Main execution of ProcessIOCs
         query = ('path:"' + str(p) + '"')
 
         processes = (c.select(Process).where(query).group_by("id"))
-        for proc in processes:
-            if len(processes) > 250:
-                if skip(p) is False:
+        if len(processes) > 250:
+            if skip(p) is False:
+                for proc in processes:
                     write_csv(proc, "path", p, IOC_report)
             else:
+                paths.remove(p)
+        else:
+            for proc in processes:
                 write_csv(proc, "path", p, IOC_report)
 
     for any1 in anys:
         query = ('"' + str(any1) + '"')
 
         processes = (c.select(Process).where(query).group_by("id"))
-        for proc in processes:
-            if len(processes) > 250:
-                if skip(any1) is False:
+        if len(processes) > 250:
+            if skip(any1) is False:
+                for proc in processes:
                     write_csv(proc, "any", any1, IOC_report)
             else:
+                anys.remove(any1)
+        else:
+            for proc in processes:
                 write_csv(proc, "any", any1, IOC_report)
 
     print ("\n[SUCCESS] The following IOCs were checked against Carbon Black:")
