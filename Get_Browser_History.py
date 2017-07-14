@@ -9,7 +9,7 @@
 #
 # File: Get_Browser_History.py
 # Date: 07/13/2017
-# Author: Jared Fagel, ALLETE INC
+# Author: Jared F
 
 import time
 from cbapi.response import CbEnterpriseResponseAPI, Sensor
