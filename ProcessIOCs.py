@@ -6,8 +6,8 @@
 #
 #
 # File: ProcessIOCs.py
-# Date: 07/12/2017
-# Author: Jared Fagel, ALLETE INC
+# Date: 07/14/2017
+# Author: Jared F, ALLETE INC
 
 
 import csv
