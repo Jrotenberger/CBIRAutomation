@@ -2,6 +2,7 @@
 CB API scripts for incident response and analysis.
 
 # 
+# 
 # Descriptions:
  - AVSIG forces an AV Signature update
 
@@ -36,6 +37,8 @@ CB API scripts for incident response and analysis.
  - AlienVault IOC Live Watch is a combination of two scripts that run together to watch all AlienVault IOC's from a users subscriptions that have been added within X days (default is 4). Will check these against Carbon Black and alert if hits are found. Very useful for live monitoring of newly emerging threats that may not have AV signatures yet. Loops over-and-over, forever.
 
 
+# 
+# 
 
 ##	Tasks (planned):
 ##		1) Deploy malwarebytes, run scan and return logs (in progress)
