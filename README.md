@@ -1,15 +1,6 @@
 # CBIRAutomation
 CB API scripts for incident response and analysis.
 
-##	Tasks (planned):
-##		1) Run full scan of installed AV (complete - fullscan.py)
-##		2) Update AV signatures (complete - AVSig.py)
-##		3) Get AV logs (complete - AVLogs.py)
-##		4) Deploy malwarebytes, run scan and return logs (in progress)
-##		5) Clean PUPs (complete - putex.py(uses modified Junkware removal tool))
-##		6) Sensor Status (partially completed - Endpoint Status.py)
-##		7) Deploy KVRT tool and pull back report (complete - KVRT.py)
-
 # 
 # Descriptions:
  - AVSIG forces an AV Signature update
@@ -43,3 +34,8 @@ CB API scripts for incident response and analysis.
  - ProcessIOCs will process a CSV file of IOC's by checking CB against each. The script digs into the events of results to get exact hit in a returned CSV report file with all the details of each hit. Capable of processing IPs, domains, MD5s, files/paths, and emails. Includes ability to ban all hashes in the IOC CSV by adding --banhashes to execution.
  
  - AlienVault IOC Live Watch is a combination of two scripts that run together to watch all AlienVault IOC's from a users subscriptions that have been added within X days (default is 4). Will check these against Carbon Black and alert if hits are found. Very useful for live monitoring of newly emerging threats that may not have AV signatures yet. Loops over-and-over, forever.
+
+
+
+##	Tasks (planned):
+##		1) Deploy malwarebytes, run scan and return logs (in progress)
