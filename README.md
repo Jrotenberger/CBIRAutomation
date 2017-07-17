@@ -3,9 +3,9 @@ CB API scripts for incident response and analysis.
 
  
 # Descriptions:
-####  - **AVSIG** forces an AV Signature update
+- **AVSIG** forces an AV Signature update
 
-####  - **AVLogs** pulls back the AV logs (Microsoft)
+- **AVLogs** pulls back the AV logs (Microsoft)
 
  - **ArtifactCapture** executes the ArtifactCaptureCB.ps1 Powershell script to capture key live forensic artifacts including memory.  That script can be found in my other repo.
 
