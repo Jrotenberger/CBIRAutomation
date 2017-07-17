@@ -12,7 +12,6 @@
 # Date: 07/17/2017
 # Author: Jared F
 
-
 import csv
 import os
 from six import PY3
