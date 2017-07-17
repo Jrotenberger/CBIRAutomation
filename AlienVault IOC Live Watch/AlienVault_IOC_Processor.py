@@ -24,7 +24,7 @@ from urlparse import urlparse
 
 c = CbEnterpriseResponseAPI()
 
-IOC_file_path = r'C:\Users\YourAccount\Desktop\iocs'  # What is the AlienVault IOC output path?
+IOC_file_path = r'C:\Users\YourAccount\Desktop\iocs'  # What is the AlienVault IOC output path? Must match OutputPath from AlienVault_IOC_Getter.py
 
 IOC_report_path = r'C:\Users\YourAccount\Desktop\AlienVault_OTX_IOC_Report.csv'  # What is the IOC result file path? Must be a CSV
 
