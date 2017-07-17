@@ -23,7 +23,7 @@ OutputPath = 'C:\Users\YourAccount\Desktop\iocs'  # Path to save 4 IOC type CSV 
 
 DaysToCheck = 4  # Number of days of AlienVault IOC feeds to check, longer = more IOCs = more processing time
 
-IOC_WHITELIST = ['']  # List of anything that should be whitelisted/ingored, put false-positves here immediately
+IOC_WHITELIST = ['']  # List of anything that should be whitelisted/ignored, put false-positves here immediately
 
 class WhiteListedIOC(Exception): pass
 
