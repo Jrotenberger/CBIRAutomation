@@ -35,7 +35,7 @@ try:
     except Exception: pass  # Existed already
     try: session.put_file(open(upv_path + "\UserProfilesView.exe", "rb"), "C:\Windows\CarbonBlack\Reports\UPV.exe")
     except Exception: pass  # Existed already
-    session.create_process(r'C:\Windows\CarbonBlack\Reports\UPV.exe /shtml "C:\Windows\CarbonBlack\Reports\u-dump.html" /sort "User Name"', False)
+    session.create_process(r'C:\Windows\CarbonBlack\Reports\UPV.exe /shtml "C:\Windows\CarbonBlack\Reports\u-dump.html" /sort "User Name"', True)
     dmp = session.get_raw_file(r"C:\Windows\CarbonBlack\Reports\u-dump.html")
     time.sleep(2.5)  # Ensures script and server are synced
     save_path = save_path + "\\{0}-UserAccountData.html".format(sensors.hostname)
