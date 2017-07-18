@@ -37,7 +37,7 @@ try:
     try: session.put_file(open(bhv_path + "\BrowsingHistoryView.exe", "rb"), "C:\Windows\CarbonBlack\Tools\BHV.exe")
     except Exception: pass  # Existed already
     time.sleep(3)  # Ensures script and server are synced
-    session.create_process(r'C:\Windows\CarbonBlack\Tools\BHV.exe /shtml "C:\Windows\CarbonBlack\Reports\bh-dump.html" /sort "URL" /sort "Visited On"', False)
+    session.create_process(r'C:\Windows\CarbonBlack\Tools\BHV.exe /shtml "C:\Windows\CarbonBlack\Reports\bh-dump.html" /sort "URL" /sort "Visited On"', True)
     print ("[SUCCESS] Executed on Sensor!")
     time.sleep(3)  # Ensures script and server are synced
     dmp = session.get_raw_file(r"C:\Windows\CarbonBlack\Reports\bh-dump.html")
