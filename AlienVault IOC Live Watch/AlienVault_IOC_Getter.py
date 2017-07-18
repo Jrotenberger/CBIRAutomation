@@ -21,7 +21,7 @@ OTX_KEY = '000_Your_AlienVault_OTX_Key_Here_000'  # AlienVault OTX key
 
 OutputPath = 'C:\Users\YourAccount\Desktop\iocs'  # Path to save 4 IOC type CSV files to
 
-DaysToCheck = 4  # Number of days of AlienVault IOC feeds to check, longer = more IOCs = more processing time
+DaysToCheck = 3  # Number of days of AlienVault IOC feeds to check, longer = more IOCs = more processing time
 
 IOC_WHITELIST = ['']  # List of anything that should be whitelisted/ignored, put false-positves here immediately
 
