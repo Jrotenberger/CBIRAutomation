@@ -10,7 +10,7 @@ IMPORTANT NOTES:
 
 AlienVault_IOC_Processor.py is the main script, and is the script that should be executed, it will run AlienVault_IOC_Getter.py as needed.
 
-AlienVault_IOC_Getter.py returns x4 IOC CSV files (hashes, file/paths, domains, IPs) with all IOCs from the OTX users subscriptions in AlienVault. By default it gets the last 4 days of IOC's from all these subscriptions.
+AlienVault_IOC_Getter.py returns x4 IOC CSV files (hashes, file/paths, domains, IPs) with all IOCs from the OTX users subscriptions in AlienVault. By default it gets the last 3 days of IOC's from all these subscriptions.
 
 AlienVault_IOC_Processor.py is the main processor, checking the IOCs within the x4 IOC CSV files against Carbon Black. It loops indefinetly, but stops and alerts the user when hits are encountered.
 
