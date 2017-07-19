@@ -287,9 +287,9 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
 
     IOC_type = IOCTypeDefined
     with open(IOC_file, 'rb') as csvfile:
-        csvDialect = csv.Sniffer().sniff(csvfile.read(1024))
+        csvDialect = csv.Sniffer().sniff(csvfile.readline())
         csvfile.seek(0)
-        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=',')
+        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=csvDialect.delimiter)
         for row in csvfile:
 
             if IOCTypeDefined is "Default":
