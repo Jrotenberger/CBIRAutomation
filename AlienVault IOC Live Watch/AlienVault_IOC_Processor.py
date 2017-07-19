@@ -228,9 +228,9 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
     global EmailDomainCheck
 
     with open(IOC_file_path + "\otx-ip-iocs.csv", 'rb') as csvfile:
-        csvDialect = csv.Sniffer().sniff(csvfile.read(1024))
+        csvDialect = csv.Sniffer().sniff(csvfile.readline())
         csvfile.seek(0)
-        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=',')
+        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=csvDialect.delimiter)
         for row in csvfile:
 
             if csvfile.line_num != 1:
@@ -248,9 +248,9 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
                     if IOC not in ips: ips.append(IOC)
 
     with open(IOC_file_path + "\otx-host-iocs.csv", 'rb') as csvfile:
-        csvDialect = csv.Sniffer().sniff(csvfile.read(1024))
+        csvDialect = csv.Sniffer().sniff(csvfile.readline())
         csvfile.seek(0)
-        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=',')
+        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=csvDialect.delimiter)
         for row in csvfile:
 
             if csvfile.line_num != 1:
@@ -274,7 +274,7 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
     with open(IOC_file_path + "\otx-hash-iocs.csv", 'rb') as csvfile:
         csvDialect = csv.Sniffer().sniff(csvfile.readline())
         csvfile.seek(0)
-        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=',')
+        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=csvDialect.delimiter)
         for row in csvfile:
 
             if csvfile.line_num != 1:
@@ -287,9 +287,9 @@ def process():  # Reads the CSV list of IOCs and processes it as intelligently a
                         if IOC not in md5s: md5s.append(IOC)
 
     with open(IOC_file_path + "\otx-filename-iocs.csv", 'rb') as csvfile:
-        csvDialect = csv.Sniffer().sniff(csvfile.read(1024))
+        csvDialect = csv.Sniffer().sniff(csvfile.readline())
         csvfile.seek(0)
-        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=',')
+        csvfile = csv.reader(csvfile, dialect=csvDialect, delimiter=csvDialect.delimiter)
         for row in csvfile:
 
             if csvfile.line_num != 1:
