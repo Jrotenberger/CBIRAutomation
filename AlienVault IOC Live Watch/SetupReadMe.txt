@@ -1,4 +1,4 @@
-In order to use this script combo, the user must have the AlienVault API installed in addition to the cbapi.
+In order to use this script combo, the user must have the AlienVault OTX API installed in addition to the cbapi.
 
 To install use the following:
 pip install OTXv2
