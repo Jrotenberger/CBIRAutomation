@@ -53,7 +53,7 @@ class OTXReceiver():
             self.filename_regex_out = False
 
     def get_iocs_last(self):
-        mtime = (datetime.now() - timedelta(days=DaysToCheck)).isoformat()
+        mtime = (datetime.now() - timedelta(days=DaysToCheck+1)).isoformat()
         print "___________________________________________________________________________________________________________________________________________"
         print "[INFO] Starting OTX feed download ..."
         self.events = self.otx.getsince(mtime)
@@ -100,7 +100,7 @@ class OTXReceiver():
                                 " / ".join(event["references"])[:80],
                                 self.separator)
 
-                        elif indicator["type"] in ('domain', 'hostname'):
+                        elif indicator["type"] in ('domain', 'hostname', 'URL'):
 
                             self.host_iocs += "{0}{3}{1} {2}\n".format(
                                 indicator["indicator"],
