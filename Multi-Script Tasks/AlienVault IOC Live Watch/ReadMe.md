@@ -1,4 +1,4 @@
-In order to use this script combo, the user must have the AlienVault OTX API installed in addition to the cbapi.
+###In order to use this script combo, the user must have the AlienVault OTX API installed in addition to the cbapi.
 
 To install use the following:
 > pip install OTXv2
@@ -14,6 +14,7 @@ Once installed, update necessary paths in the scripts, and run!
 * **AlienVault_IOC_Getter.py** returns x4 IOC CSV files (IPs, domains, hashes, file/paths) with all IOCs from the OTX users subscriptions in AlienVault. By default it gets the last 3 days of IOC's from all these subscriptions.
 
 * **alertMessage.vbs** creates a simple dialog box alert when user action is required, and is obviosuly intended for Windows machines. If being run from a non-windows machine, be sure to remove these lines (x2). Can change or update as desired.
+
 
 
 
