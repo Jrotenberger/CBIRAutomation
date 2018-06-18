@@ -8,6 +8,7 @@ Carbon Black Incident Response scripts.
 
 ###
 | **Script Name** | **Script Function** |
+| ------------- |:-------------:|
 | Artifact Capture | Places and runs a powershell script to capture volatile and log information. |
 | Clean and Update AV Sigs | Removes and updates Defender/Security Center AV signatures. |
 | Forcefully Delete Path or File | Deletes a path or file, killing running executables if encountered. |
