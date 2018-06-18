@@ -15,7 +15,6 @@ Once installed, update necessary paths in the scripts, and run!
 
 * **alertMessage.vbs** creates a simple dialog box alert when user action is required, and is obviosuly intended for Windows machines. If being run from a non-windows machine, be sure to remove these lines (x2). Can change or update as desired.
 
-```
-When hits are found, they must be added to the IOC_WHITELIST.
-This will avoid them being hit again when the script loops!!!
-```
+
+
+When hits are found, the IOC must be added to the IOC_WHITELIST, otherwise the IOC will hit again on the next check.
