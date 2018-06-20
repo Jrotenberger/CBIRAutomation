@@ -18,6 +18,7 @@ Carbon Black Incident Response scripts.
 | NotPetyaVaccine | Places and runs a script to vaccinate against the NotPetya ransomware wiper. |
 | ProcessIOCs | Checks IOCs from a CSV file against Carbon Black. |
 | Put Test Virus | Places the EICAR test virus. |
+| Regroup Sensors Using CSV | Uses a CSV file to mass-group hosts (hostname, groupname).
 | Retrieve AV Events All | Retrieves Defender/Security Center AV event logs. |
 | Retrieve AV File Hash | Retrieves a given filename's SHA1 hash from Defender/Security Center AV logs. |
 | Retrieve AV Logs | Retrieves Defender/Security Center AV logs. |
