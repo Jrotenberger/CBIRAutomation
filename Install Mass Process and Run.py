@@ -43,8 +43,8 @@ def process_sensor(c, sensor):
     global unique_sensors
 
     if 'windows' in sensor.os_environment_display_string.lower():
+        session = c.live_response.request_session(sensor.id)
         try:
-            session = c.live_response.request_session(sensor.id)
 
             try: session.create_directory(process_location_local)
             except Exception: pass  # Existed already?
