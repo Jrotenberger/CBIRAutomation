@@ -12,7 +12,7 @@ Carbon Black Incident Response scripts.
 | Artifact Capture | Places and runs a powershell script to capture volatile and log information. |
 | Clean and Update AV Sigs | Removes and updates Defender/Security Center AV signatures. |
 | Forcefully Delete Path or File | Deletes a path or file, killing running executables if encountered. |
-| Install Mass Process and Run | Installs and runs a process on many endpoints, up to 6 at a time. |
+| Install Mass Process and Run | Installs and runs a process on many endpoints, threading allows 6 at a time. |
 | List All Sensors | Creates a CSV or print-out of all CB sensors and basic details of each. |
 | Memory Capture | Places and runs a memory capture utility. |
 | NotPetyaVaccine | Places and runs a script to vaccinate against the NotPetya ransomware wiper. |
