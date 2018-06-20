@@ -97,7 +97,6 @@ def process_sensors(max_threads=6):
             q.put(sensor)
 
     print('[INFO] Attempting to install and execute process on ' + str(len(unique_sensors)) + ' endpoints...')
-    # print ('[DEBUG] Install list is now: ' + str(unique_sensors))  # Print whatever is left to-do
     threads = []
     while not q.empty():
         active_threads = threading.active_count()
