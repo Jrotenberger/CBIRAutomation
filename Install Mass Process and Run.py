@@ -71,7 +71,7 @@ def process_sensor(c, sensor):
             print('[ERROR] Encountered: TimeoutError while trying to install on ' + sensor.hostname + ' ... Re-added host to queue!')  # Report error
             q.put(sensor)
 
-        except Exception, err:
+        except Exception as err:
             print('[ERROR] Encountered: ' + str(err) + ' while trying to install on ' + sensor.hostname + ' ... Re-added host to queue!')  # Report error
             q.put(sensor)
 
