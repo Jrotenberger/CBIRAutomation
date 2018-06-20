@@ -24,48 +24,44 @@ try:
     print('[SUCCESS] Connected on Session #' + str(session.session_id))
 
     path = session.walk(delete_this, False)  # Walk everything. False performs a bottom->up walk, not top->down
-    exes = []
+    exe_files = []
+    other_files = []
 
     for item in path:  # For each subdirectory in the path
-        directory = os.path.normpath((str(item[0])))  # The subdirectory in OS path syntax
+        directory = os.path.normpath((str(item[0])))
         file_list = item[2]  # List of files in the subdirectory
         if str(file_list) != '[]':  # If the subdirectory is not empty
             for f in file_list:  # For each file in the subdirectory
-                if f.endswith('.exe'):  # We're going to get all executables first, for a variety of reasons
-                    file_path = os.path.normpath(directory + '//' + f)  # The path + filename in OS path syntax
-                    exes.append(file_path)  # Add each executable file to exes list for easy deletion next
+                file_path = os.path.normpath(directory + '//' + f)
+                if f.endswith('.exe'):
+                    exe_files.append(file_path)
+                    other_files.append(file_path)  # Add if we want to delete it at the same time as the other files
+                else:
+                    other_files.append(file_path)
+        other_files.append(directory)
 
-    for e in exes:  # For each executable in exes list
+    for e in exe_files:
         process_list = session.list_processes()
-        for pr in process_list:  # For all processes running
+        for pr in process_list:
             if (e.lower()) in str((pr['path']).lower()):  # If the executable is running as a process
-                print ('[INFO] Found and killing running process executable: ' + e)
+                print ('[INFO] Found and killing running process executable ' + e)
                 session.kill_process((pr['pid']))  # Kill the process
-        #session.delete_file(e)  # Delete the executable now, instead of when deleting everything else
-        #print ('[DEBUG] Deleting File: ' + e)
+        # session.delete_file(e)  # Delete the executable now, instead of later
+        print ('[DEBUG] Deleting File: ' + e)
 
-    #path = session.walk(delete_this,False)  # Re-walk if .exe files are deleted already, otherwise use the same walk
-    for items in path:  # For each subdirectory in the path
-        directory = os.path.normpath((str(items[0])))  # The subdirectory in OS path syntax
-        file_list = items[2]  # List of files in the subdirectory
-        if str(file_list) != '[]':  # If the subdirectory is not empty
-            for f in file_list:  # For each file in the subdirectory
-                file_path = os.path.normpath(directory + '//' + f)  # The path + filename in OS path syntax
-                print ('[INFO] Deleting: ' + file_path)
-                try: session.delete_file(file_path)  # Delete the file
-                except: print ('[ERROR] Could not delete and therefore skipping: ' + directory)
-        print ('[INFO] Deleting: ' + directory)
-        try: session.delete_file(directory)  # Delete the empty directory
-        except: print ('[ERROR] Could not delete and therefore skipping: ' + directory)
+    for o in other_files:  # For each executable in exes list
+        print ('[DEBUG] Deleting File: ' + o)
+        try: session.delete_file(o)  # Delete
+        except: print ('[ERROR] Could not delete and therefore skipping: ' + o)
 
 except Exception as err:  # Catch potential errors
     print('[ERROR] Encountered: ' + str(err) + '\n[FAILURE] Path was not deleted!')  # Report error
 
 try: session.delete_file(path)  # Delete the path itself, if it had folders it isn't deleted yet!
-except Exception: pass
+except: pass
 
 try: session.delete_file(delete_this)  # Delete the file if that's all delete_this was.
-except Exception: pass
+except: pass
 
 session.close()
 print("[INFO] Session has been closed to CB Sensor #" + str(sensor.id))
