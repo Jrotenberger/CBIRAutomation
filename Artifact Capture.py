@@ -29,22 +29,32 @@
 ## ----------------------------------------------------------------------------------------------------------------------------------------
 
 import time
-
 from cbapi.response import CbEnterpriseResponseAPI, Sensor
 
 c = CbEnterpriseResponseAPI()
 
-print("Enter Sensor ID")
-name = raw_input()
-sensor_id = name
-sensor = c.select(Sensor, sensor_id)
+print('Enter Sensor ID:')
+sensor_id = raw_input()
+# sensor_id = 150  # Use this to define the sensor ID in the script, rather than using input
 
-
-with sensor.lr_session() as session:          # this will wait until the Live Response session is established
-    session.put_file(open("\\\DIRECTORY\\artifactpullcb.ps1", "rb"),"c:\\windows\\CarbonBlack\\artifactpullcb.ps1")
+try:
+    sensor = c.select(Sensor, sensor_id)
+    print('[INFO] Establishing session to CB Sensor #' + str(sensor.id) + '(' + sensor.hostname + ')')
+    session = c.live_response.request_session(sensor.id)
+    print('[SUCCESS] Connected on Session #' + str(session.session_id))
+    
+    session.put_file(open("\\\DIRECTORY\\artifactpullcb.ps1", "rb"), "C:\\Windows\\CarbonBlack\\artifactpullcb.ps1")
+    power_shell_state = (session.create_process("PowerShell GET-EXECUTIONPOLICY", True)).upper()
     session.create_process("PowerShell SET-EXECUTIONPOLICY UNRESTRICTED")
     output = session.create_process("PowerShell .\\artifactpullcb.ps1")
-    session.create_process("PowerShell SET-EXECUTIONPOLICY RESTRICTED")
+    session.create_process("PowerShell SET-EXECUTIONPOLICY %s" % (power_shell_state))
     time.sleep(1000)
     print output
-# add line to delete ps1 file after completion
+    session.delete_file(r'C:\\Windows\\CarbonBlack\\artifactpullcb.ps1')  # Delete
+    
+except Exception as err:  # Catch potential errors
+    print('[ERROR] Encountered: ' + str(err) + '\n[FAILURE] Path was not deleted!')  # Report error    
+
+session.close()
+print("[INFO] Session has been closed to CB Sensor #" + str(sensor.id))
+print("[INFO] Script completed.")
