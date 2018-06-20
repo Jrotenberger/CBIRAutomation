@@ -15,8 +15,9 @@ from cbapi.errors import *
 c = CbEnterpriseResponseAPI()
 
 ### ==========[START CONFIG VARIABLES]========== ###
-main_query = c.select(Sensor).all()  # Query of Sensors to run on
-    # c.select(Sensor).where('groupid:1')
+main_query = c.select(Sensor).all()  # All endpoints
+    # c.select(Sensor).where('groupid:1')  # One endpoint group only
+    # c.select(Sensor).where('hostname:HostNameHere')  # One endpoint only
     # See 'Custom-exclusions can be added here' to add specific exclusions
 log_name = 'Mass Install Log.txt'  # Script output will be directed to this log file
 process_name_x86 = 'RunMe.exe'  # What is executable name for x86 (32-bit Operating System)?
