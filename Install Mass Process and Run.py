@@ -1,4 +1,4 @@
-# This python script will put a Windows x86 or x64 executable on all endpoints, run it, and return output if desired.
+# This python script will put a x86 or x64 executable on all Windows endpoints, run it, and return output if desired.
 # This script uses threading to allow multiple concurrent processing.
 #
 # File: Install Mass Process and Run.py
