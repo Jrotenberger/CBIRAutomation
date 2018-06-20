@@ -58,10 +58,10 @@ except Exception as err:  # Catch potential errors
     print('[ERROR] Encountered: ' + str(err) + '\n[FAILURE] Path was not deleted!')  # Report error
 
 try: session.delete_file(path)  # Delete the path itself, if it had folders it isn't deleted yet!
-except: pass
+except Exception: pass
 
 try: session.delete_file(delete_this)  # Delete the file if that's all delete_this was.
-except: pass
+except Exception: pass
 
 session.close()
 print("[INFO] Session has been closed to CB Sensor #" + str(sensor.id))
