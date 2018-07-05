@@ -50,6 +50,9 @@ try:
 
 except Exception as err:  # Catch potential errors
     print('[ERROR] Encountered: ' + str(err) + '\n[FAILURE] Fatal error caused exit!')  # Report error
+    
+if scan_launched is False:
+    print '[ERROR] Scan not started, no AV scan engine was found!'
 
 session.close()
 print("[INFO] Session has been closed to CB Sensor #" + str(sensor.id) + '(' + sensor.hostname + ')')
