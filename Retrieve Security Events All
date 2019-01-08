@@ -26,14 +26,14 @@ try:
     except Exception: pass  # Existed already
 
     session.create_process(r'cmd.exe /c wevtutil qe "Security" /rd:True /f:Text > C:\Windows\CarbonBlack\Reports\Security_Events.txt', wait_for_output=False, remote_output_file_name=None, working_directory=None, wait_timeout=6000, wait_for_completion=True)
-    print ('[SUCCESS] Queried all AV scan events on Sensor!')
+    print ('[SUCCESS] Queried all Windows Security events on Sensor!')
 
     the_file = session.get_raw_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')
     session.delete_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')
 
     save_to_path = save_path + '\\{0}-Security_Events.txt'.format(sensor.hostname)
     open(save_to_path,'ab').write(the_file.read())
-    print ('[SUCCESS] Retrieved all AV scan events from Sensor!')
+    print ('[SUCCESS] Retrieved all Windows Security events from Sensor!')
 
 except Exception as err:  # Catch potential errors
     print('[ERROR] Encountered: ' + str(err) + '\n[FAILURE] Fatal error caused exit!')  # Report error
