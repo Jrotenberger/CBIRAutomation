@@ -25,6 +25,7 @@ Carbon Black Incident Response scripts.
 | Retrieve AV Scan Events | Retrieves Defender/Security Center AV scan event logs. |
 | Retrieve Browsing History | Places and runs a browsing history grab utility, and retrieves HTML results. |
 | Retrieve CB Logs | Retrieves Carbon Black logs. |
+| Retrieve Security Events All | Retrieves Windows Security events log. |
 | Retrieve USB Records | Places and runs two USB history grab utilities, and retrieves two HTML results. |
 | Retrieve User Accounts | Places and runs a user account history grab utility, and retrieves HTML results. |
 | Run AV Scan | Launches a full scan using Defender/Security Center AV. |
