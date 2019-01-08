@@ -1,0 +1,44 @@
+# This python script will retrieve all Windows System Security events to HostNameHere-Security_Events.txt.
+#
+# File: Retrieve Security Events All.py
+# Date: 07/26/2018 - Modified: 1/8/2019
+# Authors: Jared F
+
+import datetime
+from cbapi.response import CbEnterpriseResponseAPI, Sensor
+
+c = CbEnterpriseResponseAPI()
+
+save_path = r'C:\Users\analyst\Desktop'  # Locally saves HostNameHere-Security_Events.txt here
+save_to_path = ''  # Required, leave as a blank string
+
+print('Enter Sensor ID:')
+sensor_id = raw_input()
+# sensor_id = 150  # Use this to define the sensor ID in the script, rather than using input
+
+try:
+    sensor = c.select(Sensor, sensor_id)
+    print('[INFO] Establishing session to CB Sensor #' + str(sensor.id) + '(' + sensor.hostname + ')')
+    session = c.live_response.request_session(sensor.id)
+    print("[SUCCESS] Connected on Session #" + str(session.session_id))
+
+    try: session.create_directory('C:\Windows\CarbonBlack\Reports')
+    except Exception: pass  # Existed already
+
+    session.create_process(r'cmd.exe /c wevtutil qe "Security" /rd:True /f:Text > C:\Windows\CarbonBlack\Reports\Security_Events.txt', wait_for_output=False, remote_output_file_name=None, working_directory=None, wait_timeout=6000, wait_for_completion=True)
+    print ('[SUCCESS] Queried all AV scan events on Sensor!')
+
+    the_file = session.get_raw_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')
+    session.delete_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')
+
+    save_to_path = save_path + '\\{0}-Security_Events.txt'.format(sensor.hostname)
+    open(save_to_path,'ab').write(the_file.read())
+    print ('[SUCCESS] Retrieved all AV scan events from Sensor!')
+
+except Exception as err:  # Catch potential errors
+    print('[ERROR] Encountered: ' + str(err) + '\n[FAILURE] Fatal error caused exit!')  # Report error
+
+
+session.close()
+print("[INFO] Session has been closed to CB Sensor #" + str(sensor.id) + '(' + sensor.hostname + ')')
+print("[INFO] Script completed.")
