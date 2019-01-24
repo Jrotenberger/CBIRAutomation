@@ -1,9 +1,9 @@
 # The script will retrieve all Windows AV events.
-# Windows Defender and Microsoft Security Client (Microsoft Antimalware) will be separated if both exist.
+# Windows Defender and Microsoft Security Client (Microsoft Antimalware) events will be separated if both exist.
 #
 #
-# File: Get_AV_Scan_Events_All.py
-# Date: 04/06/2018 - Modified: 01/22/2019
+# File: "Retrieve AV Events All.py"
+# Date: 04/06/2018 - Modified: 01/24/2019
 # Authors: Jared F
 
 from cbapi.response import CbEnterpriseResponseAPI, Sensor
@@ -22,23 +22,23 @@ try:
     session = c.live_response.request_session(sensor.id)
     print("[SUCCESS] Connected on Session #" + str(session.session_id))
 
-    try: session.create_directory('C:\Windows\CarbonBlack\Reports')
+    try: session.create_directory(r'C:\Windows\CarbonBlack\Reports')
     except Exception: pass  # Existed already
 
-    session.create_process(r"""cmd.exe /c wevtutil qe "System" /rd:True /q:"*[System[Provider[@Name='Microsoft Antimalware']]]" /f:Text > C:\Windows\CarbonBlack\Reports\Antimalware_Events.txt""", True)
-    session.create_process(r"""cmd.exe /c wevtutil qe "Microsoft-Windows-Windows Defender/Operational" /rd:True /f:Text > C:\Windows\CarbonBlack\Reports\Defender_Events.txt""", True)
+    session.create_process(r'''cmd.exe /c wevtutil qe "System" /rd:True /q:"*[System[Provider[@Name='Microsoft Antimalware']]]" /f:Text > C:\Windows\CarbonBlack\Reports\Antimalware_Events.txt''', True)
+    session.create_process(r'''cmd.exe /c wevtutil qe "Microsoft-Windows-Windows Defender/Operational" /rd:True /f:Text > C:\Windows\CarbonBlack\Reports\Defender_Events.txt''', True)
     print ('[SUCCESS] Queried all AV events on Sensor!')
 
-    antimalware_events_file = session.get_raw_file(r'C:\Windows\CarbonBlack\Reports\Antimalware_Events.txt')
-    defender_events_file = session.get_raw_file(r'C:\Windows\CarbonBlack\Reports\Defender_Events.txt')
+    antimalware_events_file = session.get_file(r'C:\Windows\CarbonBlack\Reports\Antimalware_Events.txt')
+    defender_events_file = session.get_file(r'C:\Windows\CarbonBlack\Reports\Defender_Events.txt')
     session.delete_file(r'C:\Windows\CarbonBlack\Reports\Antimalware_Events.txt')
     session.delete_file(r'C:\Windows\CarbonBlack\Reports\Defender_Events.txt')
 
     save_to_path = save_path + '\\{0}-All_AV_Events.txt'.format(sensor.hostname)
 
-    open(save_to_path, 'ab').write(antimalware_events_file.read())
+    open(save_to_path, 'ab').write(antimalware_events_file)
     open(save_to_path, 'ab').write('--------------------------------------------------------\n\n')
-    open(save_to_path, 'ab').write(defender_events_file.read())
+    open(save_to_path, 'ab').write(defender_events_file)
     print ('[SUCCESS] Retrieved all AV events from Sensor!')
 
 except Exception as err:  # Catch potential errors
