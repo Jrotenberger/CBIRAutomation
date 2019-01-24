@@ -1,10 +1,11 @@
 # This python script will return the Windows Defender AV logs from an sensor running Win7, Win8, or Win10.
 #
-# File: Retrieve AV Logs.py
-# Date: 08/03/2017 - Modified: 06/15/2018
+# File: "Retrieve AV Logs.py"
+# Date: 08/03/2017 - Modified: 01/24/2019
 # Authors: Jared F
 
 import os
+import zipfile
 from cbapi.response import CbEnterpriseResponseAPI, Sensor
 
 c = CbEnterpriseResponseAPI()
@@ -40,10 +41,13 @@ try:
     if not files_to_grab:
         raise Exception('Could not find a valid AV log path on Sensor!')
 
-    for each_file in files_to_grab:
-        file_name = os.path.basename(each_file)
-        open(save_path + '\{0}-{1}.txt'.format(sensor.hostname, file_name), 'ab').write(session.get_file(each_file))
-        print ('[INFO] Retrieved: ' + each_file)
+    with zipfile.ZipFile(save_path + r'\{0}-AV_Logs.zip'.format(sensor.hostname), 'w') as zipMe:
+        for each_file in files_to_grab:
+            file_name = r'\{0}-{1}.txt'.format(sensor.hostname, os.path.basename(each_file))
+            open(save_path + file_name, 'wb').write(session.get_file(each_file))
+            zipMe.write(save_path + file_name, file_name, compress_type=zipfile.ZIP_DEFLATED)
+            os.remove(save_path + file_name)
+            print ('[INFO] Retrieved: ' + each_file)
 
 except Exception as err:  # Catch potential errors
     print('[ERROR] Encountered: ' + str(err) + '\n[FAILURE] Fatal error caused exit!')  # Report error
