@@ -2,7 +2,7 @@
 # Windows Defender and Microsoft Security Client (Microsoft Antimalware) finished scan events will be separated if both exist.
 # The script will also retrieve the last time a full scan was completed and print it to the console.
 #
-# File: Retrieve AV Scan Events.py
+# File: "Retrieve AV Scan Events.py"
 # Date: 09/01/2017 - Modified: 01/24/2019
 # Authors: Jared F
 
