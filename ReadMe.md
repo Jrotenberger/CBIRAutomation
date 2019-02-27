@@ -3,7 +3,7 @@ Carbon Black Incident Response scripts.
 
 [Carbon Black REST API](https://github.com/carbonblack/cbapi-python)
 
-[Resilient Automations for CB](https://github.com/jjfallete/resilient/functions/carbon_black)
+[Resilient Automations for CB](https://github.com/jjfallete/resilient/blob/master/functions/carbon_black/)
 
 
 ## Details:
