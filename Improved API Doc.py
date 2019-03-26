@@ -98,16 +98,18 @@ SENSOR OBJECT:
 				@raises #ApiError: if there is an error in establishing session 
 				
 			flush_events() #Flushes events for the sensor, dangerous because this may cause a significant amount of network traffic from this sensor to the Cb Response Server 
+			
+			restart_sensor()  # Restarts the Carbon Black sensor (*not* the underlying endpoint operating system).
 				
 			isolate(timeout=None) #Isolates sensor, kills netcons with exception of con between CB server and sensor
-				@param #timeout (Int): Seconds until timeout (None=?)
-				@return #(Bool): True if sensor is isolated
-				@raises #TimeoutError: if sensor does not isolate before timeout is reached
+				@param #timeout (Int): Seconds until timeout (None=tries forever)
+				@return #(Bool): True if sensor confirms isolation
+				@raises #TimeoutError: if sensor does not isolate before timeout is reached, if specified
 				
 			unisolate(timeout=None) #Removes isolation from a sensor, allowing netcons again
-				@param #timeout (Int): Seconds until timeout (None=?)
-				@return #(Bool): True if sensor is unisolated
-				@raises #TimeoutError: if sensor does not unisolate before timeout is reached
+				@param #timeout (Int): Seconds until timeout (None=tries forever)
+				@return #(Bool): True if sensor confirms unisolation
+				@raises #TimeoutError: if sensor does not unisolate before timeout is reached, if specified
 				
 			refresh() #Refreshes the sensor, resyncing it, dangerous unverified
 			
@@ -159,6 +161,9 @@ SENSOR OBJECT:
 								28-Windows Server 2012 R2 Server Standard, 64-bit
 								29-Mac OSX 10.12.5
 								30-Windows 10 Enterprise N, 64-bit
+								31-Windows 10 Core, 64-bit
+								32-Windows 10 ???
+								33-Windows 10 ???
 								
 								
 								OVERVIEW:
@@ -166,7 +171,7 @@ SENSOR OBJECT:
 								winvis = [6]
 								win7 = [2, 4, 8, 10, 13, 15, 26]
 								win8 = [5, 11]
-								win10 = [3, 12, 30]
+								win10 = [3, 12, 30, 31]
 								osx_sierra = [22, 25, 29]
 								winserv03 = [16, 17, 18]
 								winserv08 = [14, 19, 20, 23, 24, 27]
@@ -198,6 +203,7 @@ SENSOR OBJECT:
 			power_state #Int: Power state ID (0=Running, 1=Suspended, 2=Offline)
 			uptime #Int: Uptime in seconds of machine
 			sensor_uptime #Int: Uptime in seconds of CB sensor
+			clock_delta #Int: The number of seconds the system clock is off by
 			sensor_health_status #Int: Self-reported health score, from 0 to 100. Higher numbers better
 			sensor_health_message #String: Self-reported health status name
 			notes #String/NoType: Notes???
@@ -291,7 +297,7 @@ SESSION OBJECT:
 				@param #fi
 				@return # False
 				
-			walk(top, topdown=True, onerror=None, followlinks=False)) #Perform a full directory walk with recursion into subdirectories
+			walk(top, topdown=True, onerror=None, followlinks=False) #Perform a full directory walk with recursion into subdirectories
 				@param #top (String): Path/name of directory to recurse through
 				@param #topdown (Bool): If True, start output from top level directory
 				@param #onerror : Callback if an error occurs.
@@ -308,12 +314,13 @@ SESSION OBJECT:
 				@param #pid (Int): Process ID to kill
 				@return #(Bool): True of success, False if not
 			
-			create_process(command_string, wait_for_output=True, remote_output_file_name=None, working_directory=None, wait_timeout=30) #Creates a process under parent cb.exe (wininit.exe > services.exe > cb.exe > new process)
+			create_process(command_string, wait_for_output=True, remote_output_file_name=None, working_directory=None, wait_timeout=30, wait_for_completion=True) #Creates process: (wininit.exe > services.exe > cb.exe > new process)
 				@param #command_string (String): Command string used for the create process operation
 				@param #wait_for_output (Bool): Wait for output before continuing
 				@param #remote_output_file_name (String): Redirect standard out and standard error to the given file path
 				@param #working_directory (String): The working directory of the process
 				@param #wait_timeout (Int): Timeout used for this live response command
+				@param #wait_for_completion (Bool): Wait until the process is completed (auto-true if wait_for_output is true)
 				
 				'''
 				Example:
