@@ -9,29 +9,40 @@ from cbapi.response import CbEnterpriseResponseAPI, Sensor
 
 c = CbEnterpriseResponseAPI()
 
-save_path = r'C:\Users\analyst\Desktop'  # Locally saves HostNameHere-Security_Events.txt here
-save_to_path = ''  # Required, leave as a blank string
+SAVE_PATH = r'C:\Users\analyst\Desktop'  # Locally saves HostNameHere-Security_Events.txt here
+TRANSFER_RATE = 225000  # Bytes per second, the expected minimum file transfer rate via Carbon Black
 
 print('Enter Sensor ID:')
 sensor_id = raw_input()
 # sensor_id = 150  # Use this to define the sensor ID in the script, rather than using input
 
 try:
-    sensor = c.select(Sensor, sensor_id)
+    sensor = c.select(Sensor, sensor_id)  # Get sensor object from sensor ID
+    
+    # Check online status before continuing, exit if offline
+    if sensor.status != "Online":
+        yield StatusMessage('[ERROR] Hostname: ' + str(hostname) + ' is offline. Exiting...')
+        return
+    
+    # Establish a session to the host sensor
     print('[INFO] Establishing session to CB Sensor #' + str(sensor.id) + '(' + sensor.hostname + ')')
     session = c.live_response.request_session(sensor.id)
     print("[SUCCESS] Connected on Session #" + str(session.session_id))
 
+    # Create a directory for storing security events data file
     try: session.create_directory('C:\Windows\CarbonBlack\Reports')
     except Exception: pass  # Existed already
 
+    # Run a command to create a Security_Events.txt data file with all Windows Security events
     session.create_process(r'cmd.exe /c wevtutil qe "Security" /rd:True /f:Text > C:\Windows\CarbonBlack\Reports\Security_Events.txt', wait_for_output=False, remote_output_file_name=None, working_directory=None, wait_timeout=6000, wait_for_completion=True)
     print ('[SUCCESS] Queried all Windows Security events on Sensor!')
 
+    # Retrieve the content of the Security_Events.txt data file
     the_file = session.get_raw_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')
     session.delete_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')
 
-    save_to_path = save_path + '\\{0}-Security_Events.txt'.format(sensor.hostname)
+    # Write the content of the Security_Events.txt data file to a local file
+    save_to_path = SAVE_PATH + '\\{0}-Security_Events.txt'.format(sensor.hostname)
     open(save_to_path,'ab').write(the_file.read())
     print ('[SUCCESS] Retrieved all Windows Security events from Sensor!')
 
