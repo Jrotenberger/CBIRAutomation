@@ -23,7 +23,7 @@ try:
         # Check online status before continuing, exit if offline
         if sensor.status != "Online":
             print('[ERROR] SennsorID: ' + str(sensor_id) + ' is offline. Skipping...')
-            break
+            continue
 
         # Establish a session to the host sensor
         print('[INFO] Establishing session to CB Sensor #' + str(sensor.id) + '(' + sensor.hostname + ')')
@@ -50,7 +50,7 @@ try:
         try: session.close()
         except: pass
 
-except Exception: raise
+except Exception: pass
 
 average_transfer_time_bytes_per_sec = average_transfer_time_bytes_per_sec / len(sensor_ids)
 
