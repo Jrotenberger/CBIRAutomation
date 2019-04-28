@@ -4,7 +4,6 @@
 # Date: 07/26/2018 - Modified: 4/28/2019
 # Authors: Jared F
 
-import datetime
 from cbapi.response import CbEnterpriseResponseAPI, Sensor
 
 c = CbEnterpriseResponseAPI()
@@ -21,7 +20,7 @@ try:
     
     # Check online status before continuing, exit if offline
     if sensor.status != "Online":
-        yield StatusMessage('[ERROR] Hostname: ' + str(hostname) + ' is offline. Exiting...')
+        print('[ERROR] Hostname: ' + str(hostname) + ' is offline.\n[FAILURE] Fatal error caused exit!')
         return
     
     # Establish a session to the host sensor
@@ -37,8 +36,10 @@ try:
     session.create_process(r'cmd.exe /c wevtutil qe "Security" /rd:True /f:Text > C:\Windows\CarbonBlack\Reports\Security_Events.txt', wait_for_output=False, remote_output_file_name=None, working_directory=None, wait_timeout=6000, wait_for_completion=True)
     print ('[SUCCESS] Queried all Windows Security events on Sensor!')
 
-    # Retrieve the content of the Security_Events.txt data file
-    the_file = session.get_raw_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')
+    # Retrieve the content of the Security_Events.txt data file, and then delete it
+    file_size = session.list_directory(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')[0]['size']  # File size in bytes
+    expected_timeout = int((file_size / TRANSFER_RATE) + 120)  # The expected timeout duration + 120 seconds for good measure
+    the_file = session.get_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt', timeout=expected_timeout)
     session.delete_file(r'C:\Windows\CarbonBlack\Reports\Security_Events.txt')
 
     # Write the content of the Security_Events.txt data file to a local file
@@ -48,7 +49,6 @@ try:
 
 except Exception as err:  # Catch potential errors
     print('[ERROR] Encountered: ' + str(err) + '\n[FAILURE] Fatal error caused exit!')  # Report error
-
 
 session.close()
 print("[INFO] Session has been closed to CB Sensor #" + str(sensor.id) + '(' + sensor.hostname + ')')
