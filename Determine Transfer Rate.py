@@ -9,7 +9,7 @@ from cbapi.response import CbEnterpriseResponseAPI, Sensor
 
 cb = CbEnterpriseResponseAPI()
 
-sensor_ids = [2461, 4478]  # Add multiple sensor IDs to this list
+sensor_ids = [100, 101, 102, 103, 104, 105]  # Add multiple sensor IDs to this list
 
 try:
 
