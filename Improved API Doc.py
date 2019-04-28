@@ -253,8 +253,10 @@ SESSION OBJECT:
 				@raises #LiveResponseError:
 				@raises #TimeoutError:
 				
-			get_file(file_name) #Retrieve contents of the specified file name
+			get_file(file_name, timeout=None, delay=None) #Retrieve contents of the specified file name
 				@param #file_name (String): Path/name of file
+				@param #timeout (int): Wait until timeout (None=120)
+				@param #delay (int): Wait before getting file (None=0.5)
 				@return #(String): Content of the specified file
 				
 			delete_file(filename) #Deletes a file
