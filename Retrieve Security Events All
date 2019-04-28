@@ -1,7 +1,7 @@
 # This python script will retrieve all Windows System Security events to HostNameHere-Security_Events.txt.
 #
 # File: Retrieve Security Events All.py
-# Date: 07/26/2018 - Modified: 1/8/2019
+# Date: 07/26/2018 - Modified: 4/28/2019
 # Authors: Jared F
 
 import datetime
