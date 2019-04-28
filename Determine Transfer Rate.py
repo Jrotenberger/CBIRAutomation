@@ -44,7 +44,7 @@ try:
 
             transfer_time_bytes_per_sec = file_size / elapsed_time
             average_transfer_time_bytes_per_sec += transfer_time_bytes_per_sec
-            if slowest_transfer_time_bytes_per_sec > transfer_time_bytes_per_sec: slowest_transfer_time_bytes_per_sec = transfer_time_bytes_per_sec
+            if slowest_transfer_time_bytes_per_sec == 0 or slowest_transfer_time_bytes_per_sec > transfer_time_bytes_per_sec: slowest_transfer_time_bytes_per_sec = transfer_time_bytes_per_sec
             if fastest_transfer_time_bytes_per_sec < transfer_time_bytes_per_sec: fastest_transfer_time_bytes_per_sec = transfer_time_bytes_per_sec
             
         try: session.close()
@@ -52,7 +52,7 @@ try:
 
 except Exception: pass
 
-average_transfer_time_bytes_per_sec = average_transfer_time_bytes_per_sec / len(sensor_ids)
+average_transfer_time_bytes_per_sec = average_transfer_time_bytes_per_sec / (len(sensor_ids)*len(file_sizes))
 
 print('[INFO] Fastest Transfer Rate (bytes/sec): ' + str(fastest_transfer_time_bytes_per_sec))
 print('[INFO] Slowest Transfer Rate (bytes/sec): ' + str(slowest_transfer_time_bytes_per_sec))
