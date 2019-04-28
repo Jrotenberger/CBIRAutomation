@@ -13,6 +13,7 @@ Carbon Black Incident Response scripts.
 | :------------- |:-------------|
 | Artifact Capture | Places and runs a powershell script to capture volatile and log information. |
 | Clean and Update AV Sigs | Removes and updates Defender/Security Center AV signatures. |
+| Determine Transfer Rate | Determines the expected file tranfer rate of session.get_file(). |
 | Forcefully Delete Path or File | Deletes a path or file, killing running executables if encountered. |
 | Install Mass Process and Run | Installs and runs a process on many endpoints, threaded for 6 concurrenctly. |
 | List All Sensors | Creates a CSV or print-out of all CB sensors and basic details of each. |
