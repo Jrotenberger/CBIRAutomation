@@ -6,6 +6,9 @@ Carbon Black Incident Response scripts.
 [Resilient Automations for CB](https://github.com/jjfallete/resilient/blob/master/functions/carbon_black/)
 
 
+[CARBON BLACK CONNECT 2019](https://github.com/jjfallete/cbconnect)
+
+
 ## Details:
 
 ###
